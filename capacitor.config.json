@@ -1,0 +1,8 @@
+{
+  "appId": "trackerdev.com",
+  "appName": "Tracker Developer",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
