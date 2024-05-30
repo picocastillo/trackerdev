@@ -29,7 +29,6 @@ class ProjectController extends Controller
         $request->validate([
             'users_ids' => 'required',
             'title' => 'required',
-            'description' => 'required',
         ]);
 
 
@@ -65,7 +64,6 @@ class ProjectController extends Controller
 
             $project = Project::create([
                 'name' => $project_name,
-                'description'=> $request->description
             ]);
 
             foreach ($ids as $id) {
@@ -96,7 +94,6 @@ class ProjectController extends Controller
         $request->validate([
             'users_ids' => 'required',
             'title' => 'required',
-            'description' => 'required',
         ]);
 
 

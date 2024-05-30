@@ -48,15 +48,7 @@
                                 <input type="text" required name="users_ids" class="form-control my-2"  />
                             @endif
                             
-                            @if (isset($project))
-                                <textarea name="description" cols="100" rows="5" class="form-control">
-                                {{$project->description}}
-                              </textarea>
-                            @else
-                            <textarea name="description" cols="100" rows="5" class="form-control">
-                                Este es un proyecto acerca de
-                              </textarea>
-                            @endif
+                            
                             
                             <div class="form-group row  my-2">
                                 <div class="col-12">

@@ -14,7 +14,7 @@ class Task extends Model
         'name','description','estimation','risk','billed','is_private'
     ];
     
-    function __construct($name=null,$description=null,$estimation=null,$billed=null,$iteration_id=null,$project_id=null, $user_id=null, $is_private=null,$task_id=null){
+    function __construct($name=null,$description=null,$estimation=null,$billed=null,$project_id=null, $user_id=null,$task_id=null){
         if (!$project_id or !is_integer($project_id)) return;
         DB::beginTransaction();
         try {
@@ -22,9 +22,6 @@ class Task extends Model
             $this->description = $description;
             $this->estimation = $estimation;
             $this->billed = $billed;
-            $this->iteration_id = $iteration_id;
-            if ($is_private!=null)
-                $this->is_private = $is_private;
             $this->project_id = $project_id;
             $this->task_id = $task_id;
             $this->save();
@@ -60,9 +57,7 @@ class Task extends Model
     ///////////////////
     //RELATIONS
     //////////////////
-    function iteration(){
-        return $this->belongsTo(Iteration::class);
-    }
+  
     function project(){
         return $this->belongsTo(Project::class);
     }

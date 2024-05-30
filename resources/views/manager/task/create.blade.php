@@ -22,12 +22,12 @@
 
                 <div class="card-body">
                   <div class="form-group row">
-                    <div class="col-6">
+                   {{--  <div class="col-6">
                         <p>Tarea privada</p>
                     </div>
                     <div class="col-6">
                         <input class="form-check-input" name="is_private" {{$isEdit  ? $task->is_private :''}} type="checkbox" value="0" >
-                    </div>
+                    </div> --}}
                 </div>  
                 <div class="form-group row">
                     <div class="col-md-4">

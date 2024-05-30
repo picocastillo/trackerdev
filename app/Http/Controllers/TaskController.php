@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use \App\Note;
 use \App\Item;
 use \App\Effort;
-use \App\Iteration;
 use \App\Task;
 use \App\Deposit;
 use \App\Project;
@@ -121,9 +120,7 @@ class TaskController extends Controller
             if (!$user){
                 return redirect()->back()->with('alert-danger',"El proyecto no tiene cliente");
             }
-            if (!$project->getLastIteration()){
-                return redirect()->back()->with('alert-danger',"el proyecto no tiene iteración");
-            }
+          
             $estimation = (integer) $request->estimation;
             $task_id = $request->task_id ? (integer) $request->task_id : null;
             $task = new Task(
@@ -131,10 +128,8 @@ class TaskController extends Controller
                 $request->description,
                 $estimation,
                 $billed,
-                $project->getLastIteration()->id,
                 $project_id,
                 $user_id==0 ? null : $user_id, 
-                $is_private,
                 $task_id
             );
             if ($request->items){

@@ -35,10 +35,10 @@
                                 <span class="badge badge-success" > {{$item->name}} ( {{$item->role->seniority}} ) </span>
                             @endforeach
                         </td>
-                        <td>{{($p->getLastIteration()) ? $p->getLastIteration()->billed_hours : '-'}}</td>
+                        {{-- <td>{{($p->getLastIteration()) ? $p->getLastIteration()->billed_hours : '-'}}</td> --}}
                         <td>{{$p->getDate()}}</td>
                         <td>
-                            @if ($p->getLastIteration())
+                           {{--  @if ($p->getLastIteration())
                                 {{$p->getLastIteration()->getEHoursOfTask()}} / {{$p->getLastIteration()->getFHoursOfTask()}} /
                                 <div class="badge badge-success">
                                     @if ($p->getLastIteration())
@@ -48,17 +48,17 @@
                                 </div>
                             @else
                                 -
-                            @endif
+                            @endif --}}
                         </td>
                         <td class="row" >
-                            @if ($p->iterations()->count())
+                            {{-- @if ($p->iterations()->count())
                                 <div class="col-sm-3">
                                     <a title="" class="tip-top edit" href="/iteration/{{$p->id}}/edit" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                 </div>
                             @endif
                             <div class="col-sm-3">
                                 <a title="" class="tip-top edit" href="/iteration/{{$p->id}}" data-original-title="Editar"><i class="fa fa-plus"></i></a>
-                            </div>
+                            </div> --}}
                         </td>
                       </tr>
                   @endforeach
