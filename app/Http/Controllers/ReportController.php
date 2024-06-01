@@ -19,6 +19,7 @@ use DB;
 class ReportController extends Controller
 {
     function index(){
+        $efforts  = Effort::where('paid',false)->where('user_id',\Auth::user()->id)->get();
 
 
         $start_date =  date("Y-m-01");
@@ -26,7 +27,7 @@ class ReportController extends Controller
         if (isSenior()){
             $users  = User::all();
             $reports = Report::orderby('id','desc')->paginate(10);
-            return view('reports.index',compact('users','start_date','end_date','reports'));
+            return view('reports.index',compact('users','start_date','end_date','reports','efforts'));
         }else if (isClient()){
             $users  = User::all();
             $reports = Report::orderby('id','desc')->paginate(10);
@@ -34,7 +35,7 @@ class ReportController extends Controller
         }else { //developer or professional
             $users  = User::all();
             $reports = Report::where('user_id',\Auth::user()->id)->orderby('id','desc')->paginate(10);
-            return view('reports.index',compact('users','start_date','end_date','reports'));
+            return view('reports.index',compact('users','start_date','end_date','reports','efforts'));
         }
     }
 

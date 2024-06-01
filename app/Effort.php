@@ -14,6 +14,9 @@ class Effort extends Model
     function task(){
         return $this->belongsTo(Task::class);
     }
+    function project(){
+        return $this->belongsTo(Project::class);
+    }
     function user(){
         return $this->belongsTo(User::class);
     }
@@ -23,6 +26,6 @@ class Effort extends Model
     }
 
     function getHours(){
-        return number_format($this->amount/60, 2);
+        return minutesToHours($this->amount);
     }
 }

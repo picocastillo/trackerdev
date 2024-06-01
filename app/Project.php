@@ -17,6 +17,12 @@ class Project extends Model
     function getDate(){
         return date('d/m h:i',strtotime($this->created_at));
     }
+    function getEffortsByProject(){
+        return Effort::where('project_id',$this->id)->sum('amount');
+    }
+    function getHoursByProject(){
+        return Task::where('project_id',$this->id)->where('paid',false)->sum('billed');
+    }
     
     
     ///////////////////
@@ -25,9 +31,7 @@ class Project extends Model
     function deposits(){
         return $this->hasMany(Deposit::class);
     }
-    function iterations(){
-        return $this->hasMany(Iteration::class);
-    }
+
     function tasks(){
         return $this->hasMany(Task::class);
     }

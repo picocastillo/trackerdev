@@ -37,6 +37,7 @@ class TaskController extends Controller
         Effort::create([
             'detail' => $request->description,
             'user_id' => \Auth::user()->id,
+            'project_id' =>$task->project_id,
             'task_id' =>(integer) $request->task_id,
             'amount' =>(float) $request->time,
         ]);
@@ -98,7 +99,7 @@ class TaskController extends Controller
             'detail' => $request->detail,
             'user_id' => \Auth::user()->id,
             'project_id' =>(integer) $request->project_id,
-            'amount' =>(integer) $request->time,
+            'amount' =>(integer) $request->amount,
         ]);
         return redirect()->back()->with('alert-success','Tiempo cargado');
 

@@ -16,10 +16,8 @@
                   <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Equipo</th>
-                    <th scope="col">F</th>
-                    <th scope="col">Fecha de Creación</th>
-                    <th scope="col">E/F/Resto</th>
-                    <th scope="col">Iteracion</th>
+                    <th scope="col">Horas Ejecutadas/Horas Aprobadas</th>
+                   
                   </tr>
                 </thead>
                 <tbody>
@@ -27,7 +25,7 @@
                     <tr>
                         <th scope="row">
                             {{$p->name}}
-                            <a href="project/{{$p->id}}">[ver]</a>
+                           {{--  <a href="project/{{$p->id}}">[ver]</a> --}}
                             <a href="project/{{$p->id}}/edit">[editar]</a>
                         </th>
                         <td>
@@ -36,7 +34,7 @@
                             @endforeach
                         </td>
                         {{-- <td>{{($p->getLastIteration()) ? $p->getLastIteration()->billed_hours : '-'}}</td> --}}
-                        <td>{{$p->getDate()}}</td>
+                        <td>{{minutesToHours($p->getEffortsByProject())}}/{{$p->getHoursByProject()}} Horas</td>
                         <td>
                            {{--  @if ($p->getLastIteration())
                                 {{$p->getLastIteration()->getEHoursOfTask()}} / {{$p->getLastIteration()->getFHoursOfTask()}} /

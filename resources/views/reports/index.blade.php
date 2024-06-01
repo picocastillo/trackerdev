@@ -4,6 +4,76 @@
 @include('includes.errors')
 @include('includes.messages')
 <div class="container">
+
+<div class="card">
+    <div class="card-body">
+        <h5>Horas Sin Facturar</h5> 
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Detalle</th>
+            <th scope="col">Tarea</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Fecha</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            @php
+                $total = 0;
+            @endphp
+          @foreach($efforts as $effort)
+            <tr>
+                
+                <td>
+                    {{$effort->detail}}
+                </td>
+                <td >
+                    @if ($effort->project)
+                    <span class="badge badge-info"> {{$effort->project->name}}</div>
+                        
+                    @else
+                    <a href="tasks/{{$effort->task_id}}">{{$effort->task->getTitle()}}</a>
+                    <span class="badge badge-info">{{$effort->task->project->name}}</span>&nbsp;
+                        
+                    @endif
+
+                </td>
+                <td>
+                    {{$effort->amount}} minutos
+                    @php
+                        $total = $total + $effort->amount;
+                    @endphp
+                </td>
+                <td>
+                    {{$effort->getDate()}}
+                </td>
+                
+                
+              </tr>
+          @endforeach
+        </tbody>
+      </table>
+    
+
+      <div class="row">
+        <div class="col-12 text-right">
+            <b>TOTAL </b>{{floor($total / 60).':'.$total%60}} Horas
+          {{--   TOTAL {{number_format($total/60, 2) }} Horas --}}
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row mt-2">
+    <h2>->Reportes</h2>
+
+</div>
+
     @if (isSenior())
         <div class="row">
             <div class="col-12">

@@ -21,7 +21,7 @@ class CreateEffortsTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('project_id')->nullable();
+            $table->unsignedInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->unsignedInteger('task_id')->nullable();
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');

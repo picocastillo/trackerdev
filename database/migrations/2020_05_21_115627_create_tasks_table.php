@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
+            $table->boolean('paid')->default(false);
             $table->string('history_time')->default('');//log of changes in estimation
             $table->text('description');
             $table->float('estimation', 8, 2)->nullable(true);

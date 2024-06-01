@@ -156,7 +156,7 @@
                         @endif
                         
                         <td>
-                            {{$task->getEfforts()}}
+                            {{$task->totalHours().'h'}}
                         </td>
                         <td>
                             <span class="badge {{getClassStateColor($task->getLastState())}}"> 

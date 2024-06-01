@@ -59,6 +59,10 @@ function isInProject($project_id,$user_id=null){
     return false;
 }
 
+function minutesToHours($total){
+    return floor($total / 60).':'.$total%60;
+}
+
 
 function isClient(){
     if (!\Auth::user()) return false;
