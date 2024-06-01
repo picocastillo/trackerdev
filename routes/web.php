@@ -50,12 +50,12 @@ Route::group(['middleware' => ['auth','role:senior']], function() {
     /////////////////////////////
     //////////////Iterations
     /////////////////////////////
-
+/* 
     Route::get('/iteration/{project_id}/edit', 'IterationController@edit');
     Route::get('/iteration/{project_id}', 'IterationController@create');
     Route::post('/iteration', 'IterationController@store');
     Route::post('/iteration/update/', 'IterationController@update');
-
+ */
 
     /////////////////////////////
     //////////////Reports
@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth','permissions']], function() {
     Route::post('/tasks/change-to-testing', 'TaskController@changeToTesting');
     Route::post('/tasks/change-to-feedback', 'TaskController@changeToFeedback');
     Route::post('/tasks/change-to-finished', 'TaskController@changeToFinished');
+    Route::post('/tasks/charge-effort', 'TaskController@chargeEffort');
 
 });
 

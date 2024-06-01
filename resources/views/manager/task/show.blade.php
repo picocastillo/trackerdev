@@ -59,9 +59,9 @@
                                         @endif  
                                     </td>
                                     <td>
-                                        {{$task->getEfforts()}}
-                                       <div class="badge badge-{{$task->estimation - $task->getEfforts()>0 ? 'success' : 'danger'}}">
-                                         ( {{$task->estimation - $task->getEfforts()>0 ? '+':''}} {{$task->estimation - $task->getEfforts()}}  )   
+                                        {{$task->totalHours()}}
+                                       <div class="badge badge-{{$task->estimation - $task->totalHours()>0 ? 'success' : 'danger'}}">
+                                         ( {{$task->estimation - $task->totalHours()>0 ? '+':''}} {{$task->estimation - $task->totalHours()}}  )   
                                         </div> 
                                     </td>
                                     <td>
@@ -325,7 +325,7 @@
                                         <tbody class="">
                                             @foreach ($task->efforts as $effort)
                                                 <tr>
-                                                    <th scope="row">{{$effort->amount}} ({{$effort->user->name}}) </th>
+                                                    <th scope="row">{{$effort->getHours()}} ({{$effort->user->name}}) </th>
                                                     <td>{{$effort->detail}}</td>
                                                     <td>{{$effort->getDate()}} </td>
                                                 </tr>
@@ -353,7 +353,7 @@
                                         <div class="row m-2 pt-3">
                                             <div class="col-2">
                                                 <div class="form-group">
-                                                    <input required type="number" min="0" step="0.1" name="time" class="form-control"  placeholder="tiempo">
+                                                    <input required type="number" min="0" step="1" name="time" class="form-control"  placeholder="Minutos">
                                                 </div>
                                             </div>
                                             <div class="col-6">

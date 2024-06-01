@@ -88,6 +88,22 @@ class TaskController extends Controller
         return view('manager.task.create',['devs' => $devs, 'projects' => $projects, 'isEdit' =>$task_id, 'task' => $task, 'items' => $items]);
     }
 
+    function chargeEffort(Request $request){//manualmente
+        $request->validate([
+            'project_id' => 'required',
+            'amount' => 'required',
+            'detail' => 'required'
+        ]);
+        Effort::create([
+            'detail' => $request->detail,
+            'user_id' => \Auth::user()->id,
+            'project_id' =>(integer) $request->project_id,
+            'amount' =>(integer) $request->time,
+        ]);
+        return redirect()->back()->with('alert-success','Tiempo cargado');
+
+    }
+
     function addWatcher(Request $request){
         if (!\Auth::user()->isManager()){
             abort(401,"No podes");
@@ -251,7 +267,7 @@ class TaskController extends Controller
             $user_id = (integer) $request->user_id;
             $project_id = (integer) $request->project_id;
             $items = $task->items;
-            if (count($items)>0){
+            /* if (count($items)>0){
                 foreach ($items as $item){
                     Item::destroy($item->id);
                 }
@@ -265,7 +281,7 @@ class TaskController extends Controller
                     ]);
                 } 
                 
-            }
+            } */
 
             $task->name = $request->name;
             $task->description = $request->description;

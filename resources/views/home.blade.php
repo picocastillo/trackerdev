@@ -44,6 +44,68 @@
                 </form>
             </div>
         @endif
+        @if (isDeveloper())
+            <div  class="col-sm-2 col-12">
+                
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ChargeTime">
+                    Cargar Tiempo
+                </button>
+
+
+<!-- Modal -->
+            <div class="modal fade" id="ChargeTime" tabindex="-1" role="dialog" aria-labelledby="ChargeTimeTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <form action="/tasks/charge-effort" method="POST">
+
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="ChargeTimeTitle">Cargar Tiempo Manualmente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+
+                    <div class="modal-body">
+                        @csrf
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="hidden" name='user_id' value='{{\Auth::user()->id}}' >
+                                <div class="form-group">
+                                    <label >Detalle</label>
+                                    <input type="number" class="form-control" min="1" step='1' name='amount' value="" placeholder="Minutos">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <input type="hidden" name='user_id' value='{{\Auth::user()->id}}' >
+                                <div class="form-group">
+                                    <label >Proyecto</label>
+                                    <select name="project_id" class="form-control ml-1">
+                                        @foreach ($projects as $key => $item)
+                                            <option {{request()->has('project_id') && request()->project_id == $item->id ? 'selected' : ''}}  value="{{$item->id}}" >{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Detalle del esfuerzo</label>
+                                    <textarea name="detail" class="form-control" rows="3"></textarea>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Cargar</button>
+                    </div>
+                </form>
+
+                </div>
+                </div>
+            </div>
+            </div>
+        @endif
 
         
     </div>

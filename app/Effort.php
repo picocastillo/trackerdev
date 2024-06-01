@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Effort extends Model
 {
     protected $fillable = [
-        'detail','amount', 'task_id', 'user_id'
+        'detail','amount', 'task_id', 'user_id','project_id'
     ];
     
 
@@ -20,5 +20,9 @@ class Effort extends Model
 
     function getDate(){
         return $this->created_at->format("d-m-Y H:i:s");
+    }
+
+    function getHours(){
+        return number_format($this->amount/60, 2);
     }
 }

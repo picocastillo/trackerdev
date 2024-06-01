@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([//1
             'name' => 'Manuel',
             'email' => 'manuel@trackerdev.com.ar',
-            'password' => '$2y$10$TzNxX7S1.RF.BF2WSUzHkO1DaxRp.L7HLXuM1.uu0BHHvY35k48Ii',
+            'password' => '$2y$10$jQsIqrDGWv5alTQMb5XU.OfvzfeA7Lo5q8gpb0cjBnrnqSO4D7./O',
             'is_active' => true,
             'role_id' => '2',
             'image' => 'pico_profile.jpg'
