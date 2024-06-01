@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>TrackerDev</title>
     
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 

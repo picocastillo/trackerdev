@@ -430,6 +430,7 @@
                     {{-- <div id="message_task" ></div> --}}
                     <div class="messages_task">
                         @foreach ($task->getNotes() as $message)
+                        @if (isClient() && !$message->is_private)
                             <li class="list-group-item  my-2 ">
                                 <div class="row ">
                                     <div class="col-sm-2 col-2 text-center d-sm-block d-none">
@@ -462,6 +463,42 @@
                                     </footer>
                                 </div>
                             </li>
+                        @endif
+                        @if (!isClient())
+                        <li class="list-group-item  my-2 ">
+                            <div class="row ">
+                                <div class="col-sm-2 col-2 text-center d-sm-block d-none">
+                                    <img height="80" src={{$message->user->image ? url('images/'.$message->user->image) : url('uploads/user.jpg')}} class="rounded-circle img-responsive" alt="" />
+                                </div>
+                                <div class="col-sm-10 col-10">
+                                    <div class="p-2 card card-header" >
+                                        {!! nl2br(str_replace(' ','&nbsp;',$message->message)) !!}
+                                    </div>
+                                </div>
+                                
+                                <footer class="blockquote-footer pt-2">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            Escrito por<cite title="Source Title">
+                                                &nbsp; {{$message->getUser()}} &nbsp;&nbsp;&nbsp;&nbsp; 
+                                                {{$message->getDate()}} </cite>
+                                        </div>
+                                        <div class="col-2">
+                                            @if (!isClient())
+                                                @if ($message->is_private)
+                                                    <span class="badge badge-warning">Es privada</span>
+                                                @else   
+                                                    <span class="badge badge-success">Es Publica</span>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                </footer>
+                            </div>
+                        </li>
+                        @endif
+                            
                         @endforeach
     
                      
