@@ -21,7 +21,6 @@ class ReportController extends Controller
     function index(){
         $efforts  = Effort::where('paid',false)->where('user_id',\Auth::user()->id)->get();
 
-
         $start_date =  date("Y-m-01");
         $end_date =date("Y-m-t");
         if (isSenior()){
@@ -31,6 +30,7 @@ class ReportController extends Controller
         }else if (isClient()){
             $users  = User::all();
             $reports = Report::orderby('id','desc')->paginate(10);
+           
             return view('reports.index',compact('users','start_date','end_date','reports'));
         }else { //developer or professional
             $users  = User::all();

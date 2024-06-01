@@ -124,6 +124,10 @@ class User extends Authenticatable
             return true;
 
         $task = Task::findOrFail((integer) $id);
+        if (isClient()){
+           return  in_array($task->project_id, \Auth::user()->projects()->pluck('projects.id')->toArray());
+            
+        }
         return $task->user_id == \Auth::user()->id || $task->watcher_id == $this->id;
     }
 

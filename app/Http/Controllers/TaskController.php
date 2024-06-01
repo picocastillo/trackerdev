@@ -59,7 +59,7 @@ class TaskController extends Controller
             'task_id' => (integer) $request->task_id,
             'user_id' => (integer) $request->user_id,
             'message' => $request->message,
-            'is_private' => false,
+            'is_private' => $request->is_private == null ? 0 : 1,
         ]);
 
         return redirect('/tasks/' . $request->task_id)->with('status', 'Mensage agregado');

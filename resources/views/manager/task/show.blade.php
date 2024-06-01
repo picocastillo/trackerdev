@@ -20,7 +20,9 @@
                                     <th scope="col">Proyecto</th>
                                     <th scope="col">Estimación</th>
                                     <th scope="col">Estado</th>
+                                    @if (!isClient())
                                     <th scope="col">Esfuerzo</th>
+                                    @endif
                                     <th scope="col">Revisiones</th>
                                     <th scope="col">Creada hace</th>
                                   </tr>
@@ -58,12 +60,15 @@
                                             </span>
                                         @endif  
                                     </td>
+                                    @if (!isClient())
                                     <td>
                                         {{$task->totalHours()}}
                                        <div class="badge badge-{{$task->estimation - $task->totalHours()>0 ? 'success' : 'danger'}}">
                                          ( {{$task->estimation - $task->totalHours()>0 ? '+':''}} {{$task->estimation - $task->totalHours()}}  )   
                                         </div> 
                                     </td>
+                                    @endif
+                                    
                                     <td>
                                         {{$task->review}}
                                     </td>
@@ -249,11 +254,13 @@
                                 <p class="pt-4 text-center">No hay Hitos aun en esta tarea</p>
                             @endif
                         </ol>
-                        <b>RECORDA:</b>
-                        <li><small>Ir marcando a medida que se van completando los hitos en caso de que existan.</small></li>
-                        <li><small>revisar el <a target="_BLANK" href="/wiki#checking">Checking de Testing </a>antes de pasar a Testing</small>.</li>
-                        <li><small>Dejar almenos una nota del branch donde se trabajo y comandos a correr para probar la tarea, explicar brevemente lo que se debe probar.</small></li>
-                        <li><small>"Pasar a testing" cuando completes la tarea.</small></li>
+                        @if (!isClient())
+                            <b>RECORDA:</b>
+                            <li><small>Ir marcando a medida que se van completando los hitos en caso de que existan.</small></li>
+                            <li><small>revisar el <a target="_BLANK" href="/wiki#checking">Checking de Testing </a>antes de pasar a Testing</small>.</li>
+                            <li><small>Dejar almenos una nota del branch donde se trabajo y comandos a correr para probar la tarea, explicar brevemente lo que se debe probar.</small></li>
+                            <li><small>"Pasar a testing" cuando completes la tarea.</small></li>
+                        @endif
                         <div class="row">
                             <div class="col-sm-10  px-sm-5 py-sm-3">
                                 <div class="progress">
@@ -287,7 +294,7 @@
                                     </div>
                                 @endif
                                 <div class="col m-2">
-                                    @if ($task->getLastState()!=5)
+                                    @if (!isClient() && $task->getLastState()!=5)
                                         <form method="POST" action="/tasks/change-to-feedback" >
                                             @csrf
                                             <input type="hidden" name="task_id" value={{$task->id}}>
@@ -297,7 +304,7 @@
                                         </form>   
                                     @endif 
                                 </div>
-                                @if (isInTeam($task->id) || isManager() )
+                                @if (!isClient() && isInTeam($task->id) || isManager() )
                                 <div class="col m-2">
                                     <button type="button" class="btn btn-primary btn-sm col-12" data-toggle="modal" data-target="#exampleModal">
                                         Agregar Hito
@@ -411,7 +418,11 @@
                                </div>
                            </div>
                            <div class="col-sm-2 col-2">
-                                <button type="submit" class="btn btn-success col-sm-12 col-12 mt-4"><h2>+</h2></button>
+                                <div class="col-12">
+                                    <input class="form-check-input" id='private' name="is_private"  type="checkbox"  checked >
+                                <label class="" for="private">Nota privada</label>
+                                </div>
+                                <button type="submit" class="btn btn-success col-sm-12 col-12 "><h2>+</h2></button>
                            </div>
                        </form>    
                    </div>
@@ -429,7 +440,26 @@
                                             {!! nl2br(str_replace(' ','&nbsp;',$message->message)) !!}
                                         </div>
                                     </div>
-                                    <footer class="blockquote-footer pl-2 pt-2">Escrito por<cite title="Source Title">&nbsp; {{$message->getUser()}} &nbsp;&nbsp;&nbsp;&nbsp; {{$message->getDate()}} </cite></footer>
+                                    
+                                    <footer class="blockquote-footer pt-2">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                Escrito por<cite title="Source Title">
+                                                    &nbsp; {{$message->getUser()}} &nbsp;&nbsp;&nbsp;&nbsp; 
+                                                    {{$message->getDate()}} </cite>
+                                            </div>
+                                            <div class="col-2">
+                                                @if (!isClient())
+                                                    @if ($message->is_private)
+                                                        <span class="badge badge-warning">Es privada</span>
+                                                    @else   
+                                                        <span class="badge badge-success">Es Publica</span>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                    </footer>
                                 </div>
                             </li>
                         @endforeach

@@ -80,7 +80,9 @@ class DashboardController extends Controller
         }
         //is client
         $reports = Report::where('user_id',\Auth::user()->id)->paginate(10);
-        return view('reports.index',compact('reports'));
+        $tasks  = Task::where('paid',false)->get();
+
+        return view('reports.index',compact('reports','tasks'));
         
     }
 

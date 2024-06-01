@@ -5,28 +5,68 @@
 @include('includes.messages')
 <div class="container">
 
-<div class="card">
-    <div class="card-body">
-        <h5>Horas Sin Facturar</h5> 
+@if (isClient())
+    <h3>Tareas actuales</h3>
     <table class="table">
         <thead>
-          <tr>
-            <th scope="col">Detalle</th>
+        <tr>
             <th scope="col">Tarea</th>
-            <th scope="col">Cantidad</th>
+            <th scope="col">Estimacion</th>
+            <th scope="col">Progreso</th>
             <th scope="col">Fecha</th>
 
-          </tr>
+        </tr>
         </thead>
         <tbody>
             @php
                 $total = 0;
             @endphp
-          @foreach($efforts as $effort)
+            @foreach($tasks as $task)
+                <tr>
+                    <td>
+                        <a href="tasks/{{$task->id}}">{{$task->getTitle()}}</a>
+                    </td>
+                    <td>
+                        {{$task->billed}} Horas
+                    </td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{$task->getPercentage()}}%" aria-valuenow="{{round($task->getPercentage(),2)}}" aria-valuemin="0" aria-valuemax="100">{{round($task->getPercentage(),2)}}%</div>
+                          </div>
+                    </td>
+                    <td>
+                        {{$task->getDate()}}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+@else
+    <div class="card">
+    <div class="card-body">
+        <h5>Horas Sin Facturar</h5> 
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Detalle</th>
+            <th scope="col">Tarea</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Fecha</th>
+
+        </tr>
+        </thead>
+        <tbody>
+            @php
+                $total = 0;
+            @endphp
+        @foreach($efforts as $effort)
             <tr>
                 
                 <td>
                     {{$effort->detail}}
+                    (<a href="tasks/{{$effort->task_id}}">{{$effort->task->getTitle()}}</a>)
+                    
                 </td>
                 <td >
                     @if ($effort->project)
@@ -50,20 +90,21 @@
                 </td>
                 
                 
-              </tr>
-          @endforeach
+            </tr>
+        @endforeach
         </tbody>
-      </table>
-    
+    </table>
 
-      <div class="row">
+
+    <div class="row">
         <div class="col-12 text-right">
             <b>TOTAL </b>{{floor($total / 60).':'.$total%60}} Horas
-          {{--   TOTAL {{number_format($total/60, 2) }} Horas --}}
+        {{--   TOTAL {{number_format($total/60, 2) }} Horas --}}
         </div>
-      </div>
     </div>
-</div>
+    </div>
+    </div>
+@endif
 
 
 
