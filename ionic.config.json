@@ -1,7 +1,0 @@
-{
-  "name": "trackerdev",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}

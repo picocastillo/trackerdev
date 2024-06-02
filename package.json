@@ -1,49 +1,36 @@
 {
-  "name": "trackerdev",
-  "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "@capacitor/android": "^1.4.0",
-    "@capacitor/core": "1.4.0",
-    "@ionic/react": "^4.11.0",
-    "@ionic/react-router": "^4.11.0",
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.12",
-    "@types/react": "^16.9.5",
-    "@types/react-dom": "^16.9.1",
-    "@types/react-router": "^5.1.1",
-    "@types/react-router-dom": "^5.1.0",
-    "ionicons": "^4.6.3",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-router": "^5.1.0",
-    "react-router-dom": "^5.1.0",
-    "react-scripts": "3.2.0",
-    "typescript": "3.6.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "description": "An Ionic project",
-  "devDependencies": {
-    "@capacitor/cli": "1.4.0"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "@babel/preset-react": "^7.0.0",
+        "axios": "^0.19",
+        "bootstrap": "^4.4.1",
+        "cross-env": "^7.0",
+        "jquery": "^3.2",
+        "laravel-mix": "^5.0.9",
+        "lodash": "^4.17.20",
+        "popper.js": "^1.12",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "^3.4.3",
+        "react-transition-group": "^4.4.1",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.15.2",
+        "sass-loader": "^8.0.0"
+    },
+    "dependencies": {
+        "react-particles-js": "^3.3.0",
+        "react-typist": "^2.0.5",
+        "aos": "^2.3.4",
+        "@fortawesome/fontawesome-free": "^5.15.1"
+    }
 }
