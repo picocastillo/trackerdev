@@ -410,7 +410,7 @@
                            <input type="hidden" name="task_id" value={{$task->id}}>
                            <input type="hidden" name="user_id" value={{\Auth::user()->id}}>
                            <div class="col-sm-2 col-2 d-sm-block d-none">
-                               <img  height="110" class="rounded-circle img-responsive" src={{\Auth::user()->image ? url('images/'.\Auth::user()->image) : url('uploads/user.jpg')}}></img>
+                               <img  height="110" class=" img-responsive" src={{\Auth::user()->image ? url('images/'.\Auth::user()->image) : url('uploads/user.jpg')}}></img>
                            </div>
                            <div class="col-sm-8 col-8">
                                <div class="form-group">
@@ -434,7 +434,7 @@
                             <li class="list-group-item  my-2 ">
                                 <div class="row ">
                                     <div class="col-sm-2 col-2 text-center d-sm-block d-none">
-                                        <img height="80" src={{$message->user->image ? url('images/'.$message->user->image) : url('uploads/user.jpg')}} class="rounded-circle img-responsive" alt="" />
+                                        <img height="80" src={{$message->user->image ? url('images/'.$message->user->image) : url('uploads/user.jpg')}} class=" img-responsive" alt="" />
                                     </div>
                                     <div class="col-sm-10 col-10">
                                         <div class="p-2 card card-header" >
@@ -468,7 +468,7 @@
                         <li class="list-group-item  my-2 ">
                             <div class="row ">
                                 <div class="col-sm-2 col-2 text-center d-sm-block d-none">
-                                    <img height="80" src={{$message->user->image ? url('images/'.$message->user->image) : url('uploads/user.jpg')}} class="rounded-circle img-responsive" alt="" />
+                                    <img height="80" src={{$message->user->image ? url('images/'.$message->user->image) : url('uploads/user.jpg')}} class=" img-responsive" alt="" />
                                 </div>
                                 <div class="col-sm-10 col-10">
                                     <div class="p-2 card card-header" >

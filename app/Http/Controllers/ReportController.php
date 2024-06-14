@@ -45,7 +45,21 @@ class ReportController extends Controller
             abort(401,"No podes ver este reporte");
         }
         $tasks = Task::whereIn('id',explode(',',$report->tasks))->get();
-        return view('reports.show',compact('report','tasks'));
+        $efforts = Effort::whereIn('id',explode(',',$report->efforts))->get();
+
+        $by_project = [];
+        foreach ($efforts as $key => $value) {
+            $by_project[$value->project->name][] = [
+                "amount" => $value->amount,
+                "detail" => $value->detail,
+                "date" => $value->getDate(),
+                "task_id" => $value->task_id,
+                "title_task" => $value->task ? $value->task->getTitle() : '',
+            ];
+        }
+        // dd($by_project);
+
+        return view('reports.show',compact('report','tasks','by_project'));
     }
 
     function create(Request $request){
@@ -94,6 +108,7 @@ class ReportController extends Controller
             'billed_hours' => 'required',
             'rate' => 'required',
         ]);
+        // dd($request->all());
         $report = Report::orderby('id','desc')->where('user_id',$request->user_id)->first();
         if ($report && date($report->to)>=date($request->from)){
             return redirect()->back()->with('alert-danger','Estas creando un reporte con una fecha ya incluida por otro para un mismo usuario');
@@ -115,6 +130,7 @@ class ReportController extends Controller
                     'rate' => $request->rate,
                     'detail' => $request->detail ? $request->detail : '',
                 ]);
+                Effort::wherein('id',$request->efforts)->update(['paid'=>true]);
             }else {
 
                 $iterations = Iteration::join('projects','projects.id','=','iterations.project_id')

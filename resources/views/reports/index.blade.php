@@ -65,7 +65,10 @@
                 
                 <td>
                     {{$effort->detail}}
+                    @if ($effort->task)
                     (<a href="tasks/{{$effort->task_id}}">{{$effort->task->getTitle()}}</a>)
+                        
+                    @endif
                     
                 </td>
                 <td >

@@ -111,18 +111,18 @@ class Task extends Model
         }else {
             if (!$total_efforts)
                 return 0;
-            return $this->estimation / $total_efforts;
+            return $this->estimation * 60  / $total_efforts;
         }
         
     }
 
-    function getProductivity2($user_id){ //productivity by effort
+    function getProductivity2($user_id){ //productivity by effort billed
         $has_two_efforts = false;
         $total_efforts = self::getEfforts();
         
         if (!$total_efforts)
             return 0;
-        return $this->estimation / $total_efforts;
+        return $this->billed * 60 / $total_efforts;
     }
         
     function getChildsProgress(){

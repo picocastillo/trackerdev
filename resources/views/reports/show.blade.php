@@ -4,12 +4,102 @@
 <div class="container   mb-4">
   
   @if ($report->user->role_id!=4) {{--is developer or professional--}}
-    <h2 class="h2" >
+    <h2 class="h4 mt-4" >
       Desde el {{explode('-',$report->from)[2]}}/{{explode('-',$report->from)[1]}} hasta {{explode('-',$report->to)[2]}}/{{explode('-',$report->to)[1]}}
     @if (\Auth::user()->id!=$report->user_id)
         ({{$report->user->name}})
     @endif
     </h2>
+    @php
+        $total_ticket = 0;
+        $total_manual = 0;
+    @endphp
+
+    @foreach ($by_project as $key => $project)
+    <ul>
+      <li>
+        <b>
+        {{$key}}:
+
+        </b>
+        <ul>
+          @foreach ($by_project[$key] as $effort)
+            <li>{{$effort['amount']}} minutos - {{$effort['detail']}} ({{$effort['date']}})
+              @if ($effort['task_id'])
+              [<a href="/tasks/{{$effort['task_id']}}">{{$effort['title_task']}}</a>]
+              @php
+                  $total_ticket+=$effort['amount'];
+              @endphp
+              @else
+              [Cargado Manualmente]
+              @php
+                  $total_manual+=$effort['amount'];
+                  
+              @endphp
+
+              @endif
+
+            </li>
+          @endforeach
+        </ul>
+       
+      </li>
+    </ul>
+        
+    @endforeach
+
+    <small>Se paga 15%+ si supera el 85 y 30% + con el 95 *solo del tiempo cargado en tickets</small>
+
+    <br/>
+    <div class="card">
+      <div class="card-body">
+        Totales a liquidar:
+    @php
+        $total = 0;
+    @endphp
+    <li>
+      <i>{{cuth($total_ticket/60) }}</i> Horas en tickets: <b>${{$report->rate * $total_ticket/60}}</b>
+      @php
+        $total += $report->rate * $total_ticket/60;
+      @endphp
+       @if ($report->productivity>95)
+       + <b>${{$report->rate * $total_ticket/60 * 0.3}}(+ 30 %)</b>
+       @php
+        $total += $report->rate * $total_ticket/60 * 0.3;
+      @endphp
+       @endif
+       @if ($report->productivity>85 && $report->productivity<96)
+           + <b>${{$report->rate * $total_ticket/60 * 0.15 }} (+ 15 %)</b>
+           @php
+           $total += $report->rate * $total_ticket/60 * 0.15;
+         @endphp
+       @endif
+
+    </li>
+
+
+    <li>
+      <i>{{cuth($total_manual/60) }}</i> Horas Manuales: <b> ${{$report->rate * $total_manual/60 }}   </b>
+
+      @php
+           $total += $report->rate * $total_manual/60;
+          
+      @endphp
+    </li>
+
+    <div class="row">
+      <div class="col-12 text-right">
+        <b>
+          TOTAL:
+          ${{$total}}
+        </b>
+
+        
+      </div>
+    </div>  
+      </div>
+    </div>
+
     <div class="h3">Tareas</div>
       <table class="table text-center">
         <thead>
@@ -35,7 +125,7 @@
                 <td >
                   {{$item->estimation}}
                 </td>
-                <td>{{$item->getEfforts()}}</td>
+                <td>{{minutesToHours($item->getEfforts())}}</td>
                 <td>
                   %{{number_format($item->getProductivity($report->user_id) * 100,2)}}
                 </td>
@@ -69,12 +159,15 @@
                 <tr >
                 <th scope="row">
                   {{$item->detail}}
+                  @if ($item->task)
                   ({{$item->task->getTitle()}})
+
+                  @endif
                 </th>
                 <td >
-                  {{$item->amount}}
+                  {{minutesToHours($item->amount)}}
                 </td>
-                <td>{{$item->task->project->name}}</td>
+                <td>{{$item->project->name}}</td>
                 <td>{{$item->getDate()}}</td>
                 </tr>
             @endforeach
