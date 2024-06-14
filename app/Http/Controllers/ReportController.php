@@ -119,7 +119,7 @@ class ReportController extends Controller
             $user = User::FindOrFail($request->user_id);
 
             if ($user->isDeveloper()){
-                Report::create([
+                $report = Report::create([
                     'from'=> $request->from,
                     'to'=> $request->to,
                     'user_id' => $request->user_id,
@@ -142,7 +142,7 @@ class ReportController extends Controller
                     $value->is_active = false;
                     $value->save();
                 }
-                Report::create([
+                $report = Report::create([
                     'from'=> $request->from,
                     'to'=> $request->to,
                     'user_id' => $request->user_id,
@@ -166,7 +166,7 @@ class ReportController extends Controller
 
         }
 
-        return redirect()->back();
+        return redirect('reports/'.$report->id);
 
 
     }

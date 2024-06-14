@@ -100,7 +100,20 @@
       </div>
     </div>
 
-    <div class="h3">Tareas</div>
+    <p>
+      <div class="row my-4">
+        <div class="col-12 text-center">
+          <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Ver Mas Detalles
+          </a>
+        </div>
+      </div>
+     
+    </p>
+    <br/><br/><br/>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        <div class="h3">Tareas</div>
       <table class="table text-center">
         <thead>
           <tr>
@@ -184,6 +197,11 @@
       <div class="text-right">
         Costo por hora $<b>{{$report->rate}}</b>
       </div>
+
+      </div>
+    </div>
+
+    
   @else {{--is client--}}
       @php
           $aproved_hours = 0;
