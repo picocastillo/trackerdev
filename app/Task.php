@@ -181,7 +181,11 @@ class Task extends Model
         ];
     }
     function totalHours(){
-        return number_format($this->efforts()->sum('amount')/60,2);
+        $sum = 0;
+        foreach ($this->efforts as $key => $value) {
+            $sum += $value->amount * $value->user->role->weight;
+        }
+        return number_format($sum/60,2);
     }
     function totalHoursByUser($user_id){
         return $this->efforts()->where('user_id',$user_id)->sum('amount');
