@@ -3,7 +3,7 @@
 @section('content')
 <div class="container   mb-4">
   
-  @if (isset($efforts)) {{--is developer--}}
+  @if ( $user->role->seniority =="senior" || $user->role->seniority=="semi-senior" || $user->role->seniority=="junior") {{--is developer--}}
   <form action="/reports/store" method="post">
     @csrf
     <input type="hidden" name="to" value="{{$to}}" >
@@ -143,6 +143,7 @@
     <input type="hidden" name="to" value="{{$to}}" >
     <input type="hidden" name="user_id" value="{{$user->id}}" >
     <input type="hidden" name="from" value="{{$from}}" >
+
     <h2 class="h2 text-center" >Para el usuario {{$user->name}} desde el {{explode('-',$from)[2]}}/{{explode('-',$from)[1]}} hasta {{explode('-',$to)[2]}}/{{explode('-',$to)[1]}} </h2>
     @php
         $productivity = 0;
@@ -151,7 +152,7 @@
       <div class="my-2">
         <div class="h5">Proyectos</div>
         <div class="ml-2">
-          @foreach ($projects as $item)
+          {{-- @foreach ($projects as $item)
               <li> {{$item->name}} 
               @if ($item->getLastIteration() && $item->getLastIteration()->is_active)
                  - ultima iteración {{$item->getLastIteration()->title}}, creada el {{$item->getLastIteration()->getDate()}} a entregar el {{$item->getLastIteration()->getDelivery()}}  
@@ -165,15 +166,15 @@
                   (sin iteración creada)
               @endif
               </li>
-          @endforeach
+          @endforeach --}}
         </div>
         <div class="text-right">
-          @if ($aproved_hours)
+          {{-- @if ($aproved_hours)
             Total de horas aprobadas para el mes de trabajo:<b> {{$aproved_hours}} horas</b>
             <input type="hidden" name="billed_hours" value="{{$aproved_hours}}" >
           @else
               En esta iteración se trabaja sin horas estimadas
-          @endif
+          @endif --}}
         </div>
       </div>
       <div class="my-2">
@@ -189,19 +190,16 @@
             <input type="hidden" name="tasks[]" value="{{$task->id}}" >
 
             @php
-                if ($task->estimation){
-                  $total_hours_per_task += $task->estimation;
+                  $total_hours_per_task +=$task->getEfforts();
                   $total_hours_billed_per_task += $task->billed;
                   $total_hours_efforts_per_task += $task->getEfforts();;
-                }
-                else
-                  $total_hours_per_task += $task->getEfforts();
+              
             @endphp
                 <li> {{$task->name}} 
                   <i>Creada el {{$task->getDate()}}</i>
                   <span class="badge badge-success" >{{$task->project->name}}</span>
                   @if ($task->estimation)
-                      ({{$task->estimation}} horas estimadas) ( {{$task->getEfforts()}} cargadas)( {{$task->billed}} F)
+                      ({{$task->estimation}} horas estimadas) ( {{minutesToHours($task->getEfforts())}} hs cargadas)( {{$task->billed}} F)
                   @else
                     ({{$task->getEfforts()}} horas)
                   @endif
@@ -230,19 +228,38 @@
           </ol>
         </div>
       </div>
+
+      <div class="my-2">
+        <div class="h5">Horas  cargadas manualmente</div>
+        @php
+            $total_manual = 0;
+        @endphp
+        <div class="ml-2">
+          <ol>
+            @foreach ($efforts as $effort)
+            <input type="hidden" name="efforts[]" value="{{$effort->id}}" >
+
+            
+                <li> {{$effort->detail}} 
+                  <i>[{{$effort->getDate()}}] </i>
+                  <span class="badge badge-success" >{{$effort->project->name}}</span>
+                  [{{minutesToHours($effort->amount * $effort->user->role->weight)}} Hs]
+                @php
+                    $total_manual += $effort->amount * $effort->user->role->weight
+                @endphp
+                </li>
+            @endforeach
+          </ol>
+        </div>
+      </div>
       
       <div class="text-right">
-        Suma Estimaciones:  {{$total_hours_per_task}}</br>
-        Suma Facturadas: {{$total_hours_billed_per_task}}</br>
-        Suma Esfuerzos: {{$total_hours_efforts_per_task}}</br>
-        @if ($aproved_hours)
-          Facturado: {{number_format(($aproved_hours / $total_hours_efforts_per_task) * 100,2)}} %
-          <input type="hidden" name="productivity" value="{{number_format(($aproved_hours / $total_hours_efforts_per_task) * 100,2)}}" >
-        @else
-          Facturado: {{number_format(($total_hours_billed_per_task / $total_hours_per_task) * 100,2)}} %
-          <input type="hidden" name="productivity" value="{{number_format(($total_hours_billed_per_task / $total_hours_per_task) * 100,2)}}" >
-
-        @endif
+        Suma Facturadas: {{$total_hours_billed_per_task}} hs</br>
+        Suma CM: {{minutesToHours($total_manual)}} hs</br>
+        <b>TOTAL: </b>{{minutesToHours($total_manual + $total_hours_billed_per_task * 60)}} hs
+      </br>  productividad: {{ $total_hours_billed_per_task * 60/$total_hours_per_task  * 100}}%
+      
+        <input type="hidden" name="productivity" value="{{$total_hours_billed_per_task * 60/$total_hours_per_task  * 100}}" >
 
       </div>
       
@@ -253,7 +270,7 @@
       <label>Costo por hora</label>
       <input type="text" class="form-control my-2"  name="rate"   required />
       @if (!$aproved_hours)
-        <input type="hidden" name="billed_hours" value="{{$total_hours_billed_per_task}}" >
+        <input type="hidden" name="billed_hours" value="{{($total_hours_billed_per_task * 60 +$total_manual)/60}}" >
       @endif
   </form>
   @endif

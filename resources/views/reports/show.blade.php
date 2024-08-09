@@ -211,7 +211,7 @@
       <div class="my-2">
         <div class="h5">Proyectos</div>
         <div class="ml-2">
-          @foreach ($report->user->projects as $item)
+          {{-- @foreach ($report->user->projects as $item)
               <li> {{$item->name}} 
               @if ($item->getLastIteration())
                  - ultima iteración {{$item->getLastIteration()->title}}, creada el {{$item->getLastIteration()->getDate()}} a entregar el {{$item->getLastIteration()->getDelivery()}}  
@@ -225,10 +225,10 @@
                   (sin iteración creada)
               @endif
               </li>
-          @endforeach
+          @endforeach --}}
         </div>
         <div class="text-right">
-          Total de horas aprobadas para el mes de trabajo:<b> {{$aproved_hours}} horas</b>
+          {{-- Total de horas aprobadas para el mes de trabajo:<b> {{$aproved_hours}} horas</b> --}}
         </div>
       </div>
       <div class="my-2">
@@ -269,24 +269,36 @@
                 </li>
             @endforeach
           </ol>
-          @if (isSenior())
+          {{-- @if (isSenior())
             <p> Detalle:  </p>
             
             <p>{!! nl2br(str_replace(' ','&nbsp;',$report->detail)) !!}</p>
               
-          @endif
+          @endif --}}
 
         </div>
       </div>
-      @if (isSenior())
+
+      @foreach ($efforts as $effort)
+      <input type="hidden" name="efforts[]" value="{{$effort->id}}" >
+
+      
+          <li> {{$effort->detail}} 
+            <i>[{{$effort->getDate()}}] </i>
+            <span class="badge badge-success" >{{$effort->project->name}}</span>
+            [{{minutesToHours($effort->amount * $effort->user->role->weight)}} Hs]
+           
+          </li>
+      @endforeach
+      {{-- @if (isSenior()) --}}
         <div class="text-right">
-          Total por tareas: {{$total_hours_per_task}}
+          {{-- Total por tareas: {{$total_hours_per_task}} --}}
         </div>
-      @else
+      {{-- @else --}}
         <div class="text-right">
           Total de horas facturadas: {{$report->billed_hours}}
         </div>
-      @endif
+      {{-- @endif --}}
 
       
   @endif

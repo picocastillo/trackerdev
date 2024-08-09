@@ -76,10 +76,6 @@ class Project extends Model
         return $res;
     }
 
-    function getLastIteration(){
-        if ($this->iterations()->count()==0) return false;
-       return $this->iterations()->orderBy('created_at','DESC')->take(1)->first();
-    }
 
     function getClient(){
         foreach ($this->users as $u){
