@@ -59,7 +59,7 @@ class ReportController extends Controller
         }
         // dd($by_project);
 
-        return view('reports.show',compact('report','tasks','efforts'));
+        return view('reports.show',compact('report','tasks','efforts','by_project'));
     }
 
     function create(Request $request){
