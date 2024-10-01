@@ -47,16 +47,16 @@ class ReportController extends Controller
         $tasks = Task::whereIn('id',explode(',',$report->tasks))->get();
         $efforts = Effort::whereIn('id',explode(',',$report->efforts))->where('task_id',null)->get();
 
-        // $by_project = [];
-        // foreach ($efforts as $key => $value) {
-        //     $by_project[$value->project->name][] = [
-        //         "amount" => $value->amount,
-        //         "detail" => $value->detail,
-        //         "date" => $value->getDate(),
-        //         "task_id" => $value->task_id,
-        //         "title_task" => $value->task ? $value->task->getTitle() : '',
-        //     ];
-        // }
+        $by_project = [];
+        foreach ($efforts as $key => $value) {
+            $by_project[$value->project->name][] = [
+                "amount" => $value->amount,
+                "detail" => $value->detail,
+                "date" => $value->getDate(),
+                "task_id" => $value->task_id,
+                "title_task" => $value->task ? $value->task->getTitle() : '',
+            ];
+        }
         // dd($by_project);
 
         return view('reports.show',compact('report','tasks','efforts'));
