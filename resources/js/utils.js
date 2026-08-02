@@ -4,8 +4,7 @@ export const RISKS = {
     3: "M",
     4: "A",
     5: "MA",
-}
-
+};
 
 export const STATES = {
     1: "Nuevo",
@@ -13,4 +12,4 @@ export const STATES = {
     3: "Probando",
     4: "Finalizado",
     5: "Cerrado",
-}
+};

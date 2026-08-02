@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Project;
-use \App\Task;
-use \App\Effort;
-use \App\User;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\Effort;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Mail\Contact;
 use Illuminate\Support\Facades\Mail;
 use DB;
-use \App\Report;
+use App\Models\Report;
 
 
 class DashboardController extends Controller

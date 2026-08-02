@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use \App\Note;
-use \App\Item;
-use \App\Effort;
-use \App\Task;
-use \App\Deposit;
-use \App\Project;
-use \App\User;
-use \App\File;
-use Validator;
+use App\Models\Note;
+use App\Models\Item;
+use App\Models\Effort;
+use App\Models\Task;
+use App\Models\Deposit;
+use App\Models\Project;
+use App\Models\User;
+use App\Models\File;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Middleware\CheckPermissions;
 
 class TaskController extends Controller

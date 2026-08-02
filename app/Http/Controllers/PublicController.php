@@ -14,7 +14,7 @@ class PublicController extends Controller
             'message' => 'required',
         ]);
         Mail::to('castillo.cesar.pico@gmail.com')
-                ->send(new Contact($request->message ,$request->name,$request->email));
+                ->send(new Contact($request->message, $request->name, $request->email));
         return redirect('/');
     }
 

@@ -3,129 +3,75 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-        <title>TrackerDev</title>
-    
+    <title>TrackerDev</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
-    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito|Ubuntu:400,500,700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
 </head>
-<body class="my_body ubuntu">
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm" >
-            <div class="container">
-                
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    <div  class="my_icon" ></div>
+<body class="font-display min-h-screen flex flex-col">
+    <div id="app" class="flex min-h-screen flex-col">
+        <nav class="bg-brand-dark text-white shadow-sm" x-data="{ open: false, userOpen: false }">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+                <a href="{{ url('/home') }}" class="flex items-center gap-2 text-white hover:text-white">
+                    <div class="my_icon"></div>
+                    <span class="text-lg font-bold tracking-wide">TrackerDev</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+
+                <button type="button" class="md:hidden rounded p-2 text-white hover:bg-white/10" onclick="document.getElementById('nav-menu').classList.toggle('hidden')" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    @if (Auth::user())
-                        <ul class="navbar-nav ml-auto">
-                            @if (isDeveloper() )
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="/wiki">Wiki</a>
-                                </li>
+                <div id="nav-menu" class="hidden w-full md:flex md:w-auto md:items-center md:justify-end">
+                    @auth
+                        <ul class="mt-3 flex flex-col gap-2 md:mt-0 md:flex-row md:items-center md:gap-4">
+                            @if (isDeveloper())
+                                <li><a class="text-white hover:text-stone-200" href="/wiki">Wiki</a></li>
                             @endif
                             @if (isClient() && canShowTimes())
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="/deposits">Depositos {{canShowTimes() ? ' Y Tiempos' : ''}} </a>
+                                <li>
+                                    <a class="text-white hover:text-stone-200" href="/deposits">
+                                        Depositos {{ canShowTimes() ? ' Y Tiempos' : '' }}
+                                    </a>
                                 </li>
                             @endif
                             @if (isDeveloper() || isManager())
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="/reports">Reportes</a>
-                                </li>
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link text-white" href="/invoice">Facturas</a>
-                                </li> --}}
+                                <li><a class="text-white hover:text-stone-200" href="/reports">Reportes</a></li>
                             @endif
-                            <!-- Authentication Links -->
-                            @guest
-                                <li class="nav-item">
-                                    {{-- <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a> --}}
-                                </li>
-                                @if (Route::has('register'))
-                                    <li class="nav-item">
-                                        {{-- <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a> --}}
-                                    </li>
-                                @endif
-                            @else
-                                @if (isManager())
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white" href="/task/create">Crear Tarea</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white" href="/project">Proyectos</a>
-                                    </li>
-                                @endif
-                                
-                               
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }} <span class="caret"></span>
+                            @if (isManager())
+                                <li><a class="text-white hover:text-stone-200" href="/task/create">Crear Tarea</a></li>
+                                <li><a class="text-white hover:text-stone-200" href="/project">Proyectos</a></li>
+                            @endif
+                            <li class="relative" id="user-menu-wrap">
+                                <button type="button" class="text-white hover:text-stone-200" onclick="document.getElementById('user-menu').classList.toggle('hidden')">
+                                    {{ Auth::user()->name }} <i class="fas fa-caret-down ml-1"></i>
+                                </button>
+                                <div id="user-menu" class="absolute right-0 z-20 mt-2 hidden min-w-[10rem] rounded-md border border-stone-200 bg-white py-1 text-stone-800 shadow-lg">
+                                    <a class="block px-4 py-2 text-sm hover:bg-stone-100" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Salir
                                     </a>
-
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                        {{-- <a class="dropdown-item" href="/profile"> Perfil</a> --}}
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                            Salir
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                        </form>
-                                    </div>
-                                </li>
-                            @endguest
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
                         </ul>
-                    @endif
+                    @endauth
                 </div>
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-6">
             @yield('content')
         </main>
 
-
-        <footer>
-            <div id="footer_dashboard">
-                <div class="row mx-2 mb-2">
-                    <div class="col-sm-11 text-left">
-                        
-                    </div>
-                    <div class="col-sm-1 col-12">
-                        <div class="row justify-content-center">
-                            <img height="100" width="100" src="/images/icon_td.png" />
-                        </div>
-                    </div>
-                </div>
-                
+        <footer class="mt-auto border-t border-stone-200 bg-white">
+            <div class="mx-auto flex max-w-7xl justify-end px-4 py-4">
+                <img height="80" width="80" src="/images/icon_td.png" alt="TrackerDev" />
             </div>
-
-
         </footer>
-
     </div>
     @yield('scripts')
 </body>

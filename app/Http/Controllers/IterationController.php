@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use \App\Iteration;
-use \App\Task;
+use App\Models\Iteration;
+use App\Models\Task;
 use Carbon\Carbon;
-use \App\Deposit;
-use \App\Project;
-use \App\Effort;
-use \App\User;
-use \App\Item;
-use Validator;
+use App\Models\Deposit;
+use App\Models\Project;
+use App\Models\Effort;
+use App\Models\User;
+use App\Models\Item;
+use Illuminate\Support\Facades\Validator;
 
 
 class IterationController extends Controller
