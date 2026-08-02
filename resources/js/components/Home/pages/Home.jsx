@@ -51,6 +51,10 @@ function Home() {
         <Main>
             <section className="relative flex min-h-screen items-center overflow-hidden">
                 <ParticleComponent />
+                <div
+                    className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-40 bg-gradient-to-t from-brand-dark to-transparent"
+                    aria-hidden="true"
+                />
 
                 <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-28 md:px-6 md:pb-24 md:pt-32">
                     <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-12">
@@ -59,7 +63,7 @@ function Home() {
                                 {({ home }) => (
                                     <>
                                         <p className="marketing-fade-up font-display text-sm font-medium uppercase tracking-[0.25em] text-primary-light md:text-base">
-                                            TrackerDev
+                                            MATERIALIZAMOS TU IDEA
                                         </p>
                                         <h1 className="marketing-fade-right marketing-delay-1 mt-4 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
                                             {home._1}{" "}
@@ -78,14 +82,14 @@ function Home() {
                                     href="#contacto"
                                     className="btn-primary transition hover:scale-[1.03]"
                                 >
-                                    Hablar con nosotros
+                                    Pedí tu presupuesto sin cargo
                                 </a>
                                 <WhatsAppLink className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25d366] px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:bg-[#1ebe57]" />
                                 <a
                                     href="#proyectos"
                                     className="inline-flex items-center justify-center rounded-md border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:border-white hover:bg-white/10"
                                 >
-                                    Ver proyectos
+                                    Experiencias
                                 </a>
                             </div>
                         </div>
@@ -104,16 +108,18 @@ function Home() {
 
                 <a
                     href="#servicios"
-                    className="marketing-scroll-cue absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-white/70 transition hover:text-white"
-                    aria-label="Ver más"
+                    className="group absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-white/55 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none md:bottom-8"
+                    aria-label="Ver más servicios"
                 >
-                    <span className="mb-2 block text-center font-display text-xs uppercase tracking-widest">
+                    <span className="font-display text-[0.7rem] font-medium uppercase tracking-[0.28em]">
                         Ver más
                     </span>
-                    <i
-                        className="fas fa-chevron-down text-xl"
+                    <span
+                        className="marketing-scroll-cue flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/5 transition-[border-color,background-color] group-hover:border-white/50 group-hover:bg-white/10 group-focus-visible:border-white/50 group-focus-visible:bg-white/10"
                         aria-hidden="true"
-                    />
+                    >
+                        <i className="fas fa-chevron-down text-sm" />
+                    </span>
                 </a>
             </section>
 

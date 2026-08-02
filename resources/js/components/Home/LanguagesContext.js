@@ -15,7 +15,7 @@ export const language = {
             _2: "hacer crecer tu negocio.",
             _3: "Automatizar procesos.",
             _4: "Decidir con información clara y precisa.",
-            lead: "Diseñamos, desarrollamos y testeamos productos web y móviles a medida, desde Santa Fe Capital.",
+            lead: "Diseñamos, desarrollamos, probamos, ponemos en producción y mantenemosp software web y móviles a medida, desde 2018.",
         },
         methodology: {
             left_1: "Metodología de trabajo",

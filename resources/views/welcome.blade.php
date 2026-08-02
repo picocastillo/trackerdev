@@ -65,7 +65,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="/images/bg3.webp" type="image/webp" fetchpriority="high">
 
     <meta name="google-site-verification" content="9ot2-8AJF12vTEGc9xlrwchn8r-UinvOLuc9FyZQLDw" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

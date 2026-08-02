@@ -27,6 +27,11 @@
 }
 
 @layer base {
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
+    }
+
     body {
         @apply bg-stone-50 text-stone-900 font-sans antialiased;
     }
@@ -157,19 +162,31 @@
     .marketing-hero-bg {
         background-color: #1a1a1a;
         background-image:
-            linear-gradient(
-                160deg,
-                rgb(93 22 26 / 78%) 0%,
-                rgb(26 26 26 / 88%) 55%,
-                rgb(26 26 26 / 95%) 100%
+            radial-gradient(
+                ellipse 95% 75% at 12% 18%,
+                rgb(93 22 26 / 0.72) 0%,
+                rgb(93 22 26 / 0.28) 38%,
+                transparent 68%
             ),
-            image-set(
-                url("/images/bg3.webp") type("image/webp"),
-                url("/images/bg3-opt.jpg") type("image/jpeg")
+            radial-gradient(
+                ellipse 70% 60% at 92% 78%,
+                rgb(63 14 17 / 0.75) 0%,
+                rgb(63 14 17 / 0.22) 42%,
+                transparent 70%
+            ),
+            radial-gradient(
+                ellipse 55% 45% at 58% 42%,
+                rgb(139 42 49 / 0.2) 0%,
+                transparent 58%
+            ),
+            linear-gradient(
+                158deg,
+                #2c1215 0%,
+                #1f1415 32%,
+                #1a1a1a 58%,
+                #141010 82%,
+                #1a1a1a 100%
             );
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
     }
 
     .marketing-fade-up {
@@ -211,7 +228,7 @@
     }
 
     .marketing-scroll-cue {
-        animation: marketing-bounce 2.2s ease-in-out infinite;
+        animation: marketing-bounce 2s ease-in-out infinite;
     }
 
     .marketing-service {
@@ -338,13 +355,11 @@
 @keyframes marketing-bounce {
     0%,
     100% {
-        transform: translate(-50%, 0);
-        opacity: 0.7;
+        transform: translateY(0);
     }
 
     50% {
-        transform: translate(-50%, 0.55rem);
-        opacity: 1;
+        transform: translateY(0.4rem);
     }
 }
 
@@ -361,6 +376,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     .marketing-fade-up,
     .marketing-fade-in,
     .marketing-fade-right,
