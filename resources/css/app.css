@@ -155,6 +155,7 @@
     }
 
     .marketing-hero-bg {
+        background-color: #1a1a1a;
         background-image:
             linear-gradient(
                 160deg,
@@ -162,22 +163,39 @@
                 rgb(26 26 26 / 88%) 55%,
                 rgb(26 26 26 / 95%) 100%
             ),
-            url("/images/bg3.jpg");
+            image-set(
+                url("/images/bg3.webp") type("image/webp"),
+                url("/images/bg3-opt.jpg") type("image/jpeg")
+            );
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
     .marketing-fade-up {
-        animation: marketing-fade-up 0.8s ease-out both;
+        animation: marketing-fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .marketing-fade-in {
+        animation: marketing-fade-in 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .marketing-fade-right {
+        animation: marketing-fade-right 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .marketing-logo-reveal {
+        animation:
+            marketing-logo-reveal 1.15s cubic-bezier(0.22, 1, 0.36, 1) both,
+            marketing-logo-float 5.5s ease-in-out 1.2s infinite;
     }
 
     .marketing-delay-1 {
-        animation-delay: 0.12s;
+        animation-delay: 0.1s;
     }
 
     .marketing-delay-2 {
-        animation-delay: 0.24s;
+        animation-delay: 0.22s;
     }
 
     .marketing-delay-3 {
@@ -185,11 +203,37 @@
     }
 
     .marketing-delay-4 {
-        animation-delay: 0.48s;
+        animation-delay: 0.5s;
+    }
+
+    .marketing-delay-5 {
+        animation-delay: 0.64s;
     }
 
     .marketing-scroll-cue {
-        animation: marketing-bounce 2s ease-in-out infinite;
+        animation: marketing-bounce 2.2s ease-in-out infinite;
+    }
+
+    .marketing-service {
+        @apply transition duration-300 ease-out;
+    }
+
+    .marketing-service:hover {
+        transform: translateY(-0.35rem);
+    }
+
+    .marketing-service:hover .marketing-service-icon {
+        transform: scale(1.08);
+        background-color: rgb(93 22 26 / 0.4);
+    }
+
+    .marketing-service-icon {
+        @apply transition duration-300 ease-out;
+    }
+
+    .marketing-project-panel {
+        animation: marketing-project-in 0.55s cubic-bezier(0.22, 1, 0.36, 1)
+            both;
     }
 
     .scroll-panel {
@@ -235,7 +279,7 @@
 @keyframes marketing-fade-up {
     from {
         opacity: 0;
-        transform: translateY(1.25rem);
+        transform: translateY(2rem);
     }
 
     to {
@@ -244,13 +288,97 @@
     }
 }
 
+@keyframes marketing-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes marketing-fade-right {
+    from {
+        opacity: 0;
+        transform: translateX(-2rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes marketing-logo-reveal {
+    from {
+        opacity: 0;
+        transform: translateX(2.25rem) scale(0.92);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes marketing-logo-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-0.55rem);
+    }
+}
+
 @keyframes marketing-bounce {
     0%,
     100% {
         transform: translate(-50%, 0);
+        opacity: 0.7;
     }
 
     50% {
-        transform: translate(-50%, 0.4rem);
+        transform: translate(-50%, 0.55rem);
+        opacity: 1;
+    }
+}
+
+@keyframes marketing-project-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.85rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marketing-fade-up,
+    .marketing-fade-in,
+    .marketing-fade-right,
+    .marketing-logo-reveal,
+    .marketing-scroll-cue,
+    .marketing-project-panel {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    .marketing-service,
+    .marketing-service-icon {
+        transition: none !important;
+    }
+
+    .marketing-service:hover {
+        transform: none;
     }
 }

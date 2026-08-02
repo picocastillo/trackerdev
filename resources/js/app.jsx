@@ -10,7 +10,13 @@ import TableTasks from "./components/TableTasks";
 import ItemsTask from "./components/ItemsTask";
 import MessageTask from "./components/MessageTask";
 
-AOS.init();
+AOS.init({
+    duration: 800,
+    easing: "ease-out-cubic",
+    once: true,
+    offset: 80,
+    mirror: false,
+});
 
 function mountIsland(elementId, component) {
     const el = document.getElementById(elementId);
@@ -22,7 +28,7 @@ function mountIsland(elementId, component) {
 
 const appHomeEl = document.getElementById("app-home");
 if (appHomeEl) {
-    mountIsland("app-home", <App token={appHomeEl.getAttribute("token")} />);
+    mountIsland("app-home", <App />);
 }
 
 const createIterationEl = document.getElementById("create_iteration");

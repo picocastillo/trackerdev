@@ -16,7 +16,7 @@ const NotFound = () => (
     </div>
 );
 
-function AnimatedRoutes({ token }) {
+function AnimatedRoutes() {
     const location = useLocation();
 
     return (
@@ -28,13 +28,10 @@ function AnimatedRoutes({ token }) {
                     classNames="page"
                 >
                     <Routes location={location}>
-                        <Route path="/" element={<Home token={token} />} />
+                        <Route path="/" element={<Home />} />
                         <Route path="/methodology" element={<Methodology />} />
                         <Route path="/projects" element={<Projects />} />
-                        <Route
-                            path="/contact"
-                            element={<Contact token={token} />}
-                        />
+                        <Route path="/contact" element={<Contact />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </CSSTransition>
@@ -43,11 +40,11 @@ function AnimatedRoutes({ token }) {
     );
 }
 
-function App({ token }) {
+function App() {
     return (
         <BrowserRouter>
             <div className="app">
-                <AnimatedRoutes token={token} />
+                <AnimatedRoutes />
             </div>
         </BrowserRouter>
     );

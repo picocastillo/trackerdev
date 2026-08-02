@@ -32,14 +32,22 @@ function Header() {
                     href="/"
                     className="group flex items-center gap-2 text-white"
                 >
-                    <img
-                        src="/images/td_white.png"
-                        alt="TrackerDev"
-                        className="h-8 w-auto transition-transform duration-300 group-hover:scale-105 md:h-9"
-                    />
-                    <span className="font-display text-lg font-bold tracking-wide md:text-xl">
+                    <picture>
+                        <source
+                            srcSet="/images/icon_td.webp"
+                            type="image/webp"
+                        />
+                        <img
+                            src="/images/icon_td.png"
+                            alt="TrackerDev"
+                            width="36"
+                            height="36"
+                            className="h-9 w-9 rounded-md object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                    </picture>
+                    {/* <span className="font-display text-lg font-bold tracking-wide md:text-xl">
                         TrackerDev
-                    </span>
+                    </span> */}
                 </a>
 
                 <div className="hidden items-center gap-8 md:flex">

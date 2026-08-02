@@ -4,77 +4,79 @@ export const language = {
     es: {
         name: "Change to English",
         menu: {
-            login: "INGRESAR",
+            login: "Ingresar",
             home: "Inicio",
-            methodology: "Metodologia",
+            methodology: "Metodología",
             projects: "Proyectos",
             contact: "Contacto",
         },
         home: {
-            _1: "APLICACIONES PARA",
-            _2: "Potenciar tu negocio.",
+            _1: "Software para",
+            _2: "hacer crecer tu negocio.",
             _3: "Automatizar procesos.",
-            _4: "Un control preciso, útil en la toma de desiciones.",
+            _4: "Decidir con información clara y precisa.",
+            lead: "Diseñamos, desarrollamos y testeamos productos web y móviles a medida, desde Santa Fe Capital.",
         },
         methodology: {
-            left_1: "Metodologia de trabajo",
-            left_2: "Partimos de pequeñas ideas que se convierten en grandes proyectos.",
+            left_1: "Metodología de trabajo",
+            left_2: "Convertimos ideas claras en productos que se pueden lanzar y medir.",
             right_1: [
                 {
                     id: 0,
-                    title: "Ideas, problemas y dominios",
+                    title: "Descubrimiento",
                     content:
-                        "Se realiza la captura de requerimientos, esto es saber qué se espera del sistema, qué solución cumple con mis expectativas, cómo me imagino el sistema. Resultado de esta etapa se desprende un documento contenedor de objetivos principales. Aquí se parte de una idea inicial con uno o varios problemas a solucionar. El objetivo en esta etapa es llevar nuestra idea a un producto realizable con objetivos claros.",
+                        "Definimos qué problema resolvemos, para quién y con qué objetivos. Entregamos un documento con el alcance del MVP y prioridades claras.",
                 },
                 {
                     id: 1,
-                    title: "Se realiza prototipado",
+                    title: "Prototipo",
                     content:
-                        "Se realiza el prototipado de una primer solución, cumpliendo con los objetivos principales y teniendo una primera versión del producto. Como resultado de esta etapa se obtiene un prototipo. La intención de esta etapa es encontrar la funcionalidad básica de manera de alcanzar una primera versión que nos posibilite en un lapso de tiempo corto un retorno de la inversión. En este momento ya sabremos cómo se navega a través de cada pantalla, funcionalidades de cada botón, concepto, etc.",
+                        "Diseñamos una primera versión navegable para validar flujos, pantallas y el concepto del producto antes de invertir en desarrollo completo.",
                 },
                 {
                     id: 2,
-                    title: "Principio de acuerdo",
+                    title: "Acuerdo y presupuesto",
                     content:
-                        "Si se encuentra conformidad con el producto resultado de la etapa anterior se reliza un presupuesto, se genera una estimación en horas para obtener un producto funcional del prototipado de la segunda etapa, un producto alcanzable. Para esto se hacen diseño de la arquitectura funcional obteniendo como resultado un documento en donde se detalla el desglose de tareas necesarias para tener un producto final, con cada tarea estimada en horas necesarias para completarla.",
+                        "Con el prototipo validado, estimamos horas, armamos el plan de tareas y acordamos un presupuesto alcanzable para la primera entrega.",
                 },
                 {
                     id: 3,
-                    title: "Producto funcional",
+                    title: "Producto en marcha",
                     content:
-                        "Si se aprueba el presupuesto de una aplicación inicial se lleva a cabo el desarrollo y pruebas necesarias para un primer producto final. En la etapa de desarrollo y pruebas, se puede tener un seguimiento constante del proyecto, qué etapa del plan se esta ejecutando, qué nuevo avances hay, si se cumplen con las estimaciones, etc. Finalmente tendremos nuestra primer versión del producto completamente funcionando",
+                        "Desarrollamos, probamos y te damos visibilidad del avance. Al final tenés una primera versión funcionando, lista para usar y seguir mejorando.",
                 },
             ],
         },
         contact: {
-            email: "Correo Electrónico",
-            message: "Mensage",
+            email: "Correo electrónico",
+            message: "Mensaje",
             name: "Nombre",
             submit: "Enviar",
-            solutions: "Soluciones",
-            integral: "Integrales",
+            solutions: "Hablemos de",
+            integral: "tu proyecto",
+            lead: "Escribinos por WhatsApp y te respondemos con una propuesta clara para tu idea.",
         },
         projects: {
             projects: [
                 {
                     title: "Comprobar",
                     description:
-                        "Es una aplicación para personas con diabétes. La misma es útil para la recolección de datos, para realizar un seguimiento de la enfermedad y para detectar posibles riesgos mediante cuestionarios",
+                        "App para el seguimiento de diabetes: cuestionarios, registro de datos y detección temprana de riesgos.",
                 },
                 {
-                    title: "ShowTravelers",
+                    title: "Show Travelers",
                     description:
-                        "Es una aplicación movil para el viajero. Es apartir de la misma que uno tiene una gran oferta de visitas turísticas",
+                        "App móvil para viajeros con alertas útiles y propuestas de visitas turísticas durante el viaje.",
                 },
                 {
-                    title: "Seccoplac ",
+                    title: "Seccoplac",
                     description:
-                        "Es el sitio web de la empresa reconocida Seccoplac, la misma es útil para la recolección de nuevos clientes, nuevos franquiciados y mostrar sus productos. osee de un chat bot integrado.",
+                        "Sitio web para captar clientes y franquiciados, mostrar productos y atender consultas con chatbot.",
                 },
                 {
                     title: "Grow 420",
                     description:
-                        "Es una apliacacion Web para llevar un control del stock de un comercio, sus ventas, sus costos y sus ganancias. Posee una interfaz amigable para realizar ventas y obtener información útil.",
+                        "Sistema web para controlar stock, ventas, costos y ganancias con una interfaz simple de operación diaria.",
                 },
             ],
         },
@@ -82,45 +84,46 @@ export const language = {
     en: {
         name: "Cambiar a Español",
         menu: {
-            login: "LOGIN",
+            login: "Log in",
             home: "Home",
             methodology: "Methodology",
             projects: "Projects",
             contact: "Contact",
         },
         home: {
-            _1: "SOFTWARE TO",
-            _2: "Boost your business.",
-            _3: "Automate Processes.",
-            _4: "A precise control, useful in making decisions.",
+            _1: "Software to",
+            _2: "grow your business.",
+            _3: "Automate processes.",
+            _4: "Make decisions with clear, precise data.",
+            lead: "We design, build, and test custom web and mobile products from Santa Fe, Argentina.",
         },
         methodology: {
-            left_1: "Work methodology",
-            left_2: "We start from small ideas that become big projects.",
+            left_1: "How we work",
+            left_2: "We turn clear ideas into products you can launch and measure.",
             right_1: [
                 {
                     id: 0,
-                    title: "Ideas, problems and domains",
+                    title: "Discovery",
                     content:
-                        "Here, a requirements analysis is carried out, which makes possible to know what is the best and simplest solution, according to the expectations. As a result, this stage provides a document containing the main objectives, based on an initial idea with one or more problems to solve. The main goal of this stage is to bring the idea to a workable product with clear objectives.",
+                        "We define the problem, the users, and the goals. You get an MVP scope document with clear priorities.",
                 },
                 {
                     id: 1,
-                    title: "Let's make the prototype",
+                    title: "Prototype",
                     content:
-                        "A prototype of the initial solution is carried out, paying close attention to the main objectives.  At this stage, a bare minimum prototype is obtanied, which is able to perform the most basic functionalities (e.g. how to navigate through the screens, which buttons are involved, the functionalities, etc.), and it is delivered in a short-term.",
+                        "We design a navigable first version to validate flows, screens, and product concept before full development.",
                 },
                 {
                     id: 2,
-                    title: "Agreement principle",
+                    title: "Agreement & quote",
                     content:
-                        "If the prototype resulting from the previous stage is found useful, a quote is issued, which contains an estimate of tasks (detailed in hours) needed to achieve a navigable prototype in a second stage. For this to happen, an analysis of the architecture to be implemented is performed, obtaining as a result a document which details the necessary tasks needed for reaching a final product, with easy task estimated in hours.",
+                        "Once the prototype is validated, we estimate hours, plan tasks, and agree on a realistic budget for the first release.",
                 },
                 {
                     id: 3,
-                    title: "Functional Product",
+                    title: "Working product",
                     content:
-                        "If the quote for an initial application is approved, the necessary development and tests are carried out for a first final product. In the development and testing stage, you can have constant monitoring and tracking of the project, which stage of the plan is being executed, what new advances are there, etc. Finally we will have our first version of the product fully working.",
+                        "We build, test, and keep you in the loop. You get a working first version ready to use and improve.",
                 },
             ],
         },
@@ -129,30 +132,31 @@ export const language = {
             message: "Message",
             submit: "Send",
             name: "Name",
-            solutions: "Integral",
-            integral: "Solutions",
+            solutions: "Let's talk about",
+            integral: "your project",
+            lead: "Message us on WhatsApp and we'll reply with a clear proposal for your idea.",
         },
         projects: {
             projects: [
                 {
                     title: "Comprobar",
                     description:
-                        "It is an application for people with diabetes. It is useful for data collection, to monitor the disease and to detect possible risks through questionnaires.",
+                        "An app for diabetes tracking: questionnaires, data logging, and early risk detection.",
                 },
                 {
-                    title: "ShowTravelers",
+                    title: "Show Travelers",
                     description:
-                        "It is a mobile application for the traveler. It is from the same that one has a great offer of tourist visits, discount coupons and information of interest.",
+                        "A mobile app for travelers with useful alerts and tourist visit suggestions during the trip.",
                 },
                 {
-                    title: "Seccoplac ",
+                    title: "Seccoplac",
                     description:
-                        "It is the website of the recognized company Seccoplac, it is useful for collecting new customers, new franchisees and showing their products. It has an integrated chat bot.",
+                        "A website to attract customers and franchisees, showcase products, and handle inquiries with a chatbot.",
                 },
                 {
                     title: "Grow 420",
                     description:
-                        "It is a Web application to keep track of the stock of a business, its sales, its costs and its profits. It has a friendly interface to make sales and obtain useful information.",
+                        "A web system to track stock, sales, costs, and profits with a simple daily operations interface.",
                 },
             ],
         },

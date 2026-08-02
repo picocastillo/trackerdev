@@ -9,72 +9,95 @@ import { WhatsAppLink } from "../shared/WhatsAppButton";
 
 const services = [
     {
-        title: "Sistemas Web",
-        image: "/images/comercio-electronico.svg",
+        title: "Sistemas web",
+        icon: "fas fa-laptop-code",
         description:
-            "Sistemas a medida para controlar tu negocio, tableros de comando e ideas convertidas en productos con un plan estratégico claro.",
+            "Plataformas a medida para operar tu negocio: paneles, gestión interna y flujos pensados para el día a día.",
     },
     {
-        title: "Diseño UX y UI",
-        image: "/images/paleta-de-pintura.svg",
+        title: "ERP y CRM",
+        icon: "fas fa-chart-line",
         description:
-            "Materializamos tu idea con prototipos navegables para web o móvil, definiendo también el concepto estético de la marca.",
+            "Sistemas de gestión empresarial: stock, ventas, finanzas, clientes y procesos a medida para tu operación.",
     },
     {
-        title: "Aplicaciones Móviles",
-        image: "/images/app.svg",
+        title: "Diseño UX / UI",
+        icon: "fas fa-pen-ruler",
         description:
-            "Apps para Android e iOS conectadas a un sistema web centralizado, con monitoreo y operación desde el navegador.",
+            "Prototipos navegables y una identidad visual clara para que tu producto se entienda desde el primer clic.",
     },
     {
-        title: "Landing Page",
-        image: "/images/admin.svg",
+        title: "Apps móviles",
+        icon: "fas fa-mobile-screen-button",
         description:
-            "Páginas de aterrizaje pensadas para convertir visitantes en clientes y abrir una conversación personalizada.",
+            "Aplicaciones para Android e iOS conectadas a un backend central, fáciles de usar y de mantener.",
+    },
+    {
+        title: "Landing pages",
+        icon: "fas fa-rocket",
+        description:
+            "Páginas enfocadas en conversión: presentar tu oferta, captar leads y facilitar el primer contacto.",
+    },
+    {
+        title: "Hardware e IoT",
+        icon: "fas fa-microchip",
+        description:
+            "Productos con Raspberry Pi y todo tipo de hardware: sensores, automatización, dispositivos conectados y prototipos electrónicos.",
     },
 ];
 
-function Home({ token }) {
+function Home() {
     return (
         <Main>
             <section className="relative flex min-h-screen items-center overflow-hidden">
                 <ParticleComponent />
 
                 <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-28 md:px-6 md:pb-24 md:pt-32">
-                    <div className="max-w-3xl">
-                        <img
-                            src="/images/td_white.png"
-                            alt="TrackerDev"
-                            className="marketing-fade-up h-14 w-auto md:h-20"
-                        />
-                        <p className="marketing-fade-up marketing-delay-1 mt-4 font-display text-sm font-medium uppercase tracking-[0.25em] text-primary-light md:text-base">
-                            TrackerDev
-                        </p>
-                        <LanguageContext.Consumer>
-                            {({ home }) => (
-                                <h1 className="marketing-fade-up marketing-delay-2 mt-4 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
-                                    {home._1}{" "}
-                                    <span className="text-primary-light">
-                                        {home._2.replace(/\.$/, "")}
-                                    </span>
-                                </h1>
-                            )}
-                        </LanguageContext.Consumer>
-                        <p className="marketing-fade-up marketing-delay-3 mt-5 max-w-xl text-base text-white/75 md:text-lg">
-                            Equipo en Santa Fe Capital dedicado al planeamiento,
-                            desarrollo y pruebas de software web y mobile.
-                        </p>
-                        <div className="marketing-fade-up marketing-delay-4 mt-8 flex flex-wrap gap-3">
-                            <a href="#contacto" className="btn-primary">
-                                Contactar
-                            </a>
-                            <WhatsAppLink className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25d366] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1ebe57]" />
-                            <a
-                                href="#proyectos"
-                                className="inline-flex items-center justify-center rounded-md border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
-                            >
-                                Ver trabajos
-                            </a>
+                    <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-12">
+                        <div className="max-w-xl">
+                            <LanguageContext.Consumer>
+                                {({ home }) => (
+                                    <>
+                                        <p className="marketing-fade-up font-display text-sm font-medium uppercase tracking-[0.25em] text-primary-light md:text-base">
+                                            TrackerDev
+                                        </p>
+                                        <h1 className="marketing-fade-right marketing-delay-1 mt-4 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
+                                            {home._1}{" "}
+                                            <span className="text-primary-light">
+                                                {home._2.replace(/\.$/, "")}
+                                            </span>
+                                        </h1>
+                                        <p className="marketing-fade-up marketing-delay-2 mt-5 text-base text-white/75 md:text-lg">
+                                            {home.lead}
+                                        </p>
+                                    </>
+                                )}
+                            </LanguageContext.Consumer>
+                            <div className="marketing-fade-up marketing-delay-3 mt-8 flex flex-wrap gap-3">
+                                <a
+                                    href="#contacto"
+                                    className="btn-primary transition hover:scale-[1.03]"
+                                >
+                                    Hablar con nosotros
+                                </a>
+                                <WhatsAppLink className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25d366] px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:bg-[#1ebe57]" />
+                                <a
+                                    href="#proyectos"
+                                    className="inline-flex items-center justify-center rounded-md border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:border-white hover:bg-white/10"
+                                >
+                                    Ver proyectos
+                                </a>
+                            </div>
+                        </div>
+                        <div className="flex justify-center md:justify-end">
+                            <img
+                                src="/images/td_white.png"
+                                alt="TrackerDev - desarrollo de software"
+                                width="667"
+                                height="206"
+                                className="marketing-logo-reveal h-auto w-full max-w-xs object-contain md:max-w-md lg:max-w-lg"
+                                fetchPriority="high"
+                            />
                         </div>
                     </div>
                 </div>
@@ -101,31 +124,35 @@ function Home({ token }) {
                 <div className="mx-auto max-w-7xl px-4 md:px-6">
                     <h2
                         data-aos="fade-up"
+                        data-aos-duration="900"
                         className="font-display text-center text-3xl font-bold text-white md:text-4xl"
                     >
-                        ¿Qué hacemos?
+                        Qué podemos construir juntos
                     </h2>
                     <p
                         data-aos="fade-up"
-                        data-aos-delay="100"
+                        data-aos-delay="120"
                         className="mx-auto mt-3 max-w-2xl text-center text-white/65"
                     >
-                        Soluciones integrales para llevar software a tu negocio.
+                        Desde la idea hasta el producto en producción: web, ERP,
+                        CRM, hardware e IoT, con foco en claridad, calidad y
+                        resultados.
                     </p>
 
-                    <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+                    <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
                         {services.map((service, index) => (
                             <article
                                 key={service.title}
-                                data-aos="fade-up"
-                                data-aos-delay={100 + index * 80}
-                                className="text-center"
+                                data-aos="zoom-in"
+                                data-aos-delay={100 + index * 100}
+                                className="marketing-service text-center"
                             >
-                                <img
-                                    src={service.image}
-                                    alt={service.title}
-                                    className="mx-auto h-28 w-auto object-contain"
-                                />
+                                <div className="marketing-service-icon mx-auto flex h-16 w-16 items-center justify-center rounded-md bg-primary/25 text-primary-light ring-1 ring-primary/40">
+                                    <i
+                                        className={`${service.icon} text-2xl`}
+                                        aria-hidden="true"
+                                    />
+                                </div>
                                 <h3 className="mt-5 font-display text-xl font-semibold text-white">
                                     {service.title}
                                 </h3>
@@ -141,11 +168,12 @@ function Home({ token }) {
             <Methodology />
             <Projects />
 
-            <section className="bg-brand-dark py-16 md:py-20">
+            {/* <section className="bg-brand-dark py-16 md:py-20">
                 <div className="mx-auto max-w-5xl px-4 md:px-6">
                     <div
-                        data-aos="fade-up"
-                        className="relative aspect-video w-full overflow-hidden rounded-lg border border-white/10"
+                        data-aos="zoom-in"
+                        data-aos-duration="900"
+                        className="relative aspect-video w-full overflow-hidden rounded-lg border border-white/10 shadow-2xl shadow-black/40"
                     >
                         <iframe
                             className="absolute inset-0 h-full w-full"
@@ -155,9 +183,9 @@ function Home({ token }) {
                         />
                     </div>
                 </div>
-            </section>
+            </section> */}
 
-            <Footer token={token} />
+            <Footer />
         </Main>
     );
 }

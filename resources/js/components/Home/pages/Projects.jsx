@@ -13,8 +13,8 @@ const slides = [
             "XD",
         ],
         description:
-            "Aplicación para personas con diabetes: cuestionarios, seguimiento y recolección de datos útiles para el tratamiento.",
-        image: "/images/proj_1.png",
+            "App para el seguimiento de diabetes: cuestionarios, registro de datos y detección temprana de riesgos.",
+        image: "/images/proj_1.webp",
     },
     {
         id: 1,
@@ -28,8 +28,8 @@ const slides = [
             "Sagas",
         ],
         description:
-            "App móvil para el viajero con alertas relevantes y oferta de visitas turísticas durante el viaje.",
-        image: "/images/proj_2.png",
+            "App móvil para viajeros con alertas útiles y propuestas de visitas turísticas durante el viaje.",
+        image: "/images/proj_2.webp",
     },
     {
         id: 2,
@@ -45,9 +45,9 @@ const slides = [
             "Expo",
         ],
         description:
-            "Sistema web y dos apps móviles (iOS y Android) para logística de paquetería.",
-        image: "/images/proj_4_2.png",
-        secondaryImage: "/images/proj_4_1.png",
+            "Ecosistema web + apps iOS/Android para gestionar la logística de paquetería de punta a punta.",
+        image: "/images/proj_4.webp",
+        secondaryImage: "/images/proj_4_1.webp",
     },
     {
         id: 3,
@@ -64,9 +64,9 @@ const slides = [
             "Figma",
         ],
         description:
-            "Plataforma que conecta la oferta de profesionales con la demanda de trabajos.",
-        image: "/images/proj_5_2.png",
-        secondaryImage: "/images/proj_5_1.png",
+            "Marketplace que conecta profesionales con pedidos de trabajo, de forma simple y rápida.",
+        image: "/images/proj_5_1.webp",
+        secondaryImage: "/images/proj_5_2.webp",
     },
     {
         id: 4,
@@ -82,25 +82,25 @@ const slides = [
             "Figma",
         ],
         description:
-            "CMS web que alimenta una aplicación móvil con contenidos y gestión centralizada.",
-        image: "/images/proj_6_2.png",
-        secondaryImage: "/images/proj_6_1.png",
+            "CMS web que alimenta una app móvil con contenidos y administración centralizada.",
+        image: "/images/proj_6_1.webp",
+        secondaryImage: "/images/proj_6_2.webp",
     },
     {
         id: 5,
         title: "Estoker",
         badges: ["Laravel", "React JS", "Bootstrap", "Figma"],
         description:
-            "Gestión de productos por Excel o interfaz gráfica, con control de stock y operación diaria.",
-        image: "/images/proj_7.png",
+            "Control de stock y productos por Excel o interfaz gráfica, pensado para la operación diaria.",
+        image: "/images/proj_7.webp",
     },
     {
         id: 6,
         title: "Seccoplac",
         badges: ["Laravel", "React JS", "Bootstrap", "Landing Page"],
         description:
-            "Sitio web para captar clientes y franquiciados, mostrar productos y atender con chat bot integrado.",
-        image: "/images/proj_3.png",
+            "Sitio corporativo para captar clientes y franquiciados, con catálogo de productos y chatbot.",
+        image: "/images/proj_3.webp",
     },
 ];
 
@@ -136,12 +136,17 @@ export default function Projects() {
             <div className="mx-auto max-w-7xl px-4 md:px-6">
                 <h2
                     data-aos="fade-up"
+                    data-aos-duration="900"
                     className="font-display text-center text-3xl font-bold text-white md:text-4xl"
                 >
-                    Algunos de nuestros trabajos
+                    Proyectos que impulsamos
                 </h2>
 
-                <div className="relative mt-12">
+                <div
+                    className="relative mt-12"
+                    data-aos="fade-up"
+                    data-aos-delay="120"
+                >
                     <ol className="mb-8 flex list-none justify-center gap-2 p-0">
                         {slides.map((s, i) => (
                             <li key={s.id}>
@@ -149,9 +154,9 @@ export default function Projects() {
                                     type="button"
                                     aria-label={`Proyecto ${i + 1}`}
                                     onClick={() => setActiveIndex(i)}
-                                    className={`h-2.5 w-2.5 rounded-full transition ${
+                                    className={`h-2.5 w-2.5 rounded-full transition duration-300 ${
                                         i === activeIndex
-                                            ? "bg-primary-light scale-110"
+                                            ? "scale-125 bg-primary-light"
                                             : "bg-white/30 hover:bg-white/50"
                                     }`}
                                 />
@@ -161,8 +166,7 @@ export default function Projects() {
 
                     <div
                         key={slide.id}
-                        data-aos="fade-up"
-                        className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10"
+                        className="marketing-project-panel grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10"
                     >
                         <div className="lg:col-span-5">
                             <h3 className="font-display text-2xl font-bold text-white md:text-3xl">
@@ -174,18 +178,32 @@ export default function Projects() {
                             </p>
                         </div>
                         <div className="lg:col-span-7">
-                            <div className="grid gap-3">
-                                <img
-                                    src={slide.image}
-                                    alt={slide.title}
-                                    className="w-full rounded-lg border border-white/10 object-cover"
-                                />
-                                {slide.secondaryImage && (
+                            <div
+                                className={`grid gap-3 ${slide.secondaryImage ? "sm:grid-cols-5" : ""}`}
+                            >
+                                <div
+                                    className={`overflow-hidden rounded-lg border border-white/10 bg-black/30 shadow-xl shadow-black/30 transition duration-500 hover:border-white/25 ${slide.secondaryImage ? "sm:col-span-3" : ""}`}
+                                >
                                     <img
-                                        src={slide.secondaryImage}
-                                        alt={`${slide.title} detalle`}
-                                        className="ml-auto w-2/3 rounded-lg border border-white/10 object-cover"
+                                        src={slide.image}
+                                        alt={`Desarrollo de software: proyecto ${slide.title}`}
+                                        className="aspect-[16/10] w-full object-cover object-top transition duration-700 hover:scale-[1.03]"
+                                        loading={
+                                            activeIndex === 0 ? "eager" : "lazy"
+                                        }
+                                        decoding="async"
                                     />
+                                </div>
+                                {slide.secondaryImage && (
+                                    <div className="overflow-hidden rounded-lg border border-white/10 bg-black/30 shadow-xl shadow-black/30 transition duration-500 hover:border-white/25 sm:col-span-2">
+                                        <img
+                                            src={slide.secondaryImage}
+                                            alt={`Desarrollo de software: detalle de ${slide.title}`}
+                                            className="aspect-[16/10] h-full w-full object-cover object-top transition duration-700 hover:scale-[1.03] sm:aspect-auto"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    </div>
                                 )}
                             </div>
                         </div>

@@ -1,12 +1,13 @@
 import React from "react";
 
 const WHATSAPP_URL =
-    "https://wa.me/543425287592?text=Hola,%20Me%20gustaría%20cotizar%20mi%20proyecto%20";
+    "https://wa.me/543425287592?text=Hola%2C%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20con%20TrackerDev.";
 
 export function WhatsAppLink({
     className = "",
     showLabel = true,
     children = null,
+    ...props
 }) {
     return (
         <a
@@ -15,6 +16,7 @@ export function WhatsAppLink({
             rel="noreferrer"
             className={className}
             aria-label="WhatsApp +54 342 528-7592"
+            {...props}
         >
             <i className="fab fa-whatsapp text-lg" aria-hidden="true" />
             {children ?? (showLabel ? <span>WhatsApp</span> : null)}
