@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { LanguageContext } from "../LanguagesContext";
 
 const navLinks = [
-    { href: "/#servicios", label: "Servicios" },
-    { href: "/#metodologia", label: "Metodología" },
-    { href: "/#proyectos", label: "Proyectos" },
-    { href: "/#contacto", label: "Contacto" },
+    { href: "/#servicios", label: "Servicios", icon: "fas fa-layer-group" },
+    { href: "/#metodologia", label: "Metodología", icon: "fas fa-route" },
+    { href: "/#proyectos", label: "Proyectos", icon: "fas fa-briefcase" },
+    { href: "/#contacto", label: "Contacto", icon: "fas fa-comments" },
 ];
 
 function Header() {
@@ -56,8 +56,12 @@ function Header() {
                             <li key={link.href}>
                                 <a
                                     href={link.href}
-                                    className="font-display text-sm font-medium text-white/80 transition hover:text-white"
+                                    className="inline-flex items-center gap-2 font-display text-sm font-medium text-white/80 transition hover:text-white"
                                 >
+                                    <i
+                                        className={`${link.icon} text-xs opacity-70`}
+                                        aria-hidden="true"
+                                    />
                                     {link.label}
                                 </a>
                             </li>
@@ -67,8 +71,12 @@ function Header() {
                         {({ menu }) => (
                             <a
                                 href="/login"
-                                className="btn-primary btn-sm !rounded-md"
+                                className="btn-primary btn-sm inline-flex items-center gap-2 !rounded-md"
                             >
+                                <i
+                                    className="fas fa-right-to-bracket"
+                                    aria-hidden="true"
+                                />
                                 {menu.login}
                             </a>
                         )}
@@ -96,9 +104,13 @@ function Header() {
                             <li key={link.href}>
                                 <a
                                     href={link.href}
-                                    className="block font-display text-base text-white/90"
+                                    className="inline-flex items-center gap-3 font-display text-base text-white/90"
                                     onClick={() => setIsOpen(false)}
                                 >
+                                    <i
+                                        className={`${link.icon} w-4 text-primary-light`}
+                                        aria-hidden="true"
+                                    />
                                     {link.label}
                                 </a>
                             </li>
@@ -108,8 +120,12 @@ function Header() {
                                 {({ menu }) => (
                                     <a
                                         href="/login"
-                                        className="btn-primary w-full"
+                                        className="btn-primary inline-flex w-full items-center justify-center gap-2"
                                     >
+                                        <i
+                                            className="fas fa-right-to-bracket"
+                                            aria-hidden="true"
+                                        />
                                         {menu.login}
                                     </a>
                                 )}

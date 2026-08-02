@@ -18,10 +18,17 @@ function Methodology() {
                 >
                     <div className="mx-auto max-w-7xl px-4 md:px-6">
                         <div className="mx-auto max-w-3xl text-center">
+                            <p
+                                data-aos="fade-up"
+                                className="text-3xl"
+                                aria-hidden="true"
+                            >
+                                🧭
+                            </p>
                             <h2
                                 data-aos="fade-up"
                                 data-aos-duration="900"
-                                className="font-display text-3xl font-bold text-white md:text-4xl"
+                                className="mt-2 font-display text-3xl font-bold text-white md:text-4xl"
                             >
                                 {methodology.left_1}
                             </h2>

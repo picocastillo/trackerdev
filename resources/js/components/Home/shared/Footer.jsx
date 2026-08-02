@@ -1,5 +1,5 @@
 import React from "react";
-import { WHATSAPP_URL, WhatsAppLink } from "./WhatsAppButton";
+import { WHATSAPP_DISPLAY, WHATSAPP_URL, WhatsAppLink } from "./WhatsAppButton";
 
 const socialLinks = [
     {
@@ -49,7 +49,7 @@ const Footer = () => (
                     data-aos-delay="80"
                     className="font-display text-3xl font-bold text-white md:text-4xl"
                 >
-                    ¿Tenés una idea?
+                    ¿Tenés una idea? <span aria-hidden="true">💡</span>
                 </h2>
                 <p
                     data-aos="fade-up"
@@ -59,13 +59,28 @@ const Footer = () => (
                     Escribinos por WhatsApp y te ayudamos a convertirla en un
                     producto web o móvil a medida.
                 </p>
-                <WhatsAppLink
+                <p
                     data-aos="fade-up"
-                    data-aos-delay="200"
-                    className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#25d366] px-5 py-3 text-base font-semibold text-white transition hover:scale-[1.03] hover:bg-[#1ebe57]"
+                    data-aos-delay="170"
+                    className="mt-3 inline-flex items-center justify-center gap-2 text-sm text-white/50"
                 >
-                    <span className="tabular-nums">+54 342 528-7592</span>
-                </WhatsAppLink>
+                    <i
+                        className="fas fa-location-dot text-primary-light"
+                        aria-hidden="true"
+                    />
+                    Santa Fe, Argentina
+                </p>
+                <div data-aos="fade-up" data-aos-delay="200" className="mt-6">
+                    <WhatsAppLink label="Chateá con nosotros" />
+                    <p className="mt-3 text-xs text-white/45">
+                        <i
+                            className="fab fa-whatsapp mr-1"
+                            aria-hidden="true"
+                        />
+                        Respuesta inmediatas cualquier dia/horario.
+                       
+                    </p>
+                </div>
                 <div
                     data-aos="fade-up"
                     data-aos-delay="260"

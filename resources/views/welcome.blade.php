@@ -247,7 +247,7 @@
                 <a href="{{ $siteUrl }}/projects">Proyectos</a> ·
                 <a href="{{ $siteUrl }}/contact">Contacto</a>
             </nav>
-            <p>Contacto WhatsApp: <a href="https://wa.me/543425287592">+54 342 528-7592</a></p>
+            <p>Contacto WhatsApp: <a href="https://wa.me/543425287592?text=Hola%2C%20me%20gustar%C3%ADa%20cotizar%20un%20proyecto%20con%20TrackerDev.">+54 342 528-7592</a></p>
         </main>
     </noscript>
 </body>

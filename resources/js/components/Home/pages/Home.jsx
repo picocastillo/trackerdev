@@ -62,8 +62,9 @@ function Home() {
                             <LanguageContext.Consumer>
                                 {({ home }) => (
                                     <>
-                                        <p className="marketing-fade-up font-display text-sm font-medium uppercase tracking-[0.25em] text-primary-light md:text-base">
-                                            MATERIALIZAMOS TU IDEA
+                                        <p className="marketing-fade-up inline-flex items-center gap-2 font-display text-sm font-medium uppercase tracking-[0.25em] text-primary-light md:text-base">
+                                            <span aria-hidden="true">✨</span>
+                                            Materializamos tu idea
                                         </p>
                                         <h1 className="marketing-fade-right marketing-delay-1 mt-4 font-display text-4xl font-bold leading-tight text-white md:text-6xl">
                                             {home._1}{" "}
@@ -80,18 +81,49 @@ function Home() {
                             <div className="marketing-fade-up marketing-delay-3 mt-8 flex flex-wrap gap-3">
                                 <a
                                     href="#contacto"
-                                    className="btn-primary transition hover:scale-[1.03]"
+                                    className="btn-primary inline-flex items-center gap-2 transition hover:scale-[1.03]"
                                 >
+                                    <i
+                                        className="fas fa-file-invoice-dollar"
+                                        aria-hidden="true"
+                                    />
                                     Pedí tu presupuesto sin cargo
                                 </a>
-                                <WhatsAppLink className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25d366] px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:bg-[#1ebe57]" />
+                                <WhatsAppLink variant="compact" />
                                 <a
                                     href="#proyectos"
-                                    className="inline-flex items-center justify-center rounded-md border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:border-white hover:bg-white/10"
+                                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.03] hover:border-white hover:bg-white/10"
                                 >
+                                    <i
+                                        className="fas fa-images"
+                                        aria-hidden="true"
+                                    />
                                     Experiencias
                                 </a>
                             </div>
+                            <ul className="marketing-fade-up marketing-delay-3 mt-6 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 text-sm text-white/55">
+                                <li className="inline-flex items-center gap-2">
+                                    <i
+                                        className="fas fa-calendar-check text-primary-light"
+                                        aria-hidden="true"
+                                    />
+                                    Desde 2018
+                                </li>
+                                <li className="inline-flex items-center gap-2">
+                                    <i
+                                        className="fas fa-location-dot text-primary-light"
+                                        aria-hidden="true"
+                                    />
+                                    Santa Fe, Argentina
+                                </li>
+                                <li className="inline-flex items-center gap-2">
+                                    <i
+                                        className="fas fa-code text-primary-light"
+                                        aria-hidden="true"
+                                    />
+                                    Web, mobile e IoT
+                                </li>
+                            </ul>
                         </div>
                         <div className="flex justify-center md:justify-end">
                             <img
@@ -128,10 +160,17 @@ function Home() {
                 className="relative bg-gradient-to-b from-brand-dark via-[#1f1515] to-brand-dark py-20 md:py-28"
             >
                 <div className="mx-auto max-w-7xl px-4 md:px-6">
+                    <p
+                        data-aos="fade-up"
+                        className="text-center text-3xl"
+                        aria-hidden="true"
+                    >
+                        🛠️
+                    </p>
                     <h2
                         data-aos="fade-up"
                         data-aos-duration="900"
-                        className="font-display text-center text-3xl font-bold text-white md:text-4xl"
+                        className="mt-2 font-display text-center text-3xl font-bold text-white md:text-4xl"
                     >
                         Qué podemos construir juntos
                     </h2>

@@ -41,8 +41,11 @@ export default function Projects() {
                 id="proyectos"
                 className="relative bg-gradient-to-br from-primary-dark via-brand-dark to-stone-900 py-20 md:py-28"
             >
-                <div className="mx-auto max-w-7xl px-4 md:px-6">
-                    <h2 className="font-display text-center text-3xl font-bold text-white md:text-4xl">
+                <div className="mx-auto max-w-7xl px-4 md:px-6 text-center">
+                    <p className="text-3xl" aria-hidden="true">
+                        🚀
+                    </p>
+                    <h2 className="mt-2 font-display text-3xl font-bold text-white md:text-4xl">
                         Proyectos que impulsamos
                     </h2>
                 </div>
@@ -56,10 +59,17 @@ export default function Projects() {
             className="relative bg-gradient-to-br from-primary-dark via-brand-dark to-stone-900 py-20 md:py-28"
         >
             <div className="mx-auto max-w-7xl px-4 md:px-6">
+                <p
+                    data-aos="fade-up"
+                    className="text-center text-3xl"
+                    aria-hidden="true"
+                >
+                    🚀
+                </p>
                 <h2
                     data-aos="fade-up"
                     data-aos-duration="900"
-                    className="font-display text-center text-3xl font-bold text-white md:text-4xl"
+                    className="mt-2 font-display text-center text-3xl font-bold text-white md:text-4xl"
                 >
                     Proyectos que impulsamos
                 </h2>
