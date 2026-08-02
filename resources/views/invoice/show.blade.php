@@ -1,68 +1,105 @@
 @extends('layouts.app')
 
 @section('content')
-@if(\Auth::user()->isManager() && !$invoice->expence)
-<div class="mb-4">
-    <form method="POST" action="/manager/invoice/paid-off" class="flex flex-wrap items-end gap-2">
-        @csrf
-        <input class="form-input w-auto" type="text" name="amount" value="{{$amount}}" placeholder="Pago">
-        <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
-        <button type="submit" class="btn btn-primary">Pagar</button>
-    </form>
-</div>
-@endif
+<div class="page-shell">
+    @include('includes.page-header', [
+        'title' => 'Factura',
+        'subtitle' => 'Detalle de liquidación',
+        'breadcrumbs' => [
+            ['label' => 'Facturas', 'url' => '/invoice'],
+            ['label' => 'Detalle', 'url' => null],
+        ],
+    ])
 
-<div class="mb-4 flex flex-wrap gap-2">
-    <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Total de horas: {{$invoice->total}}</span>
-    @if (\Auth::user()->isDeveloper())
-        @if ($invoice->expence)
-            <span class="alert-info inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold">PAGADO</span>
-        @else
-            <span class="alert-warning inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold">ADEUDADO</span>
-        @endif
-    @endif
-    <span class="inline-flex rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Productividad: {{number_format($invoice->productivity,2)}}%</span>
-    @if(number_format($invoice->productivity,2)>=75 && number_format($invoice->productivity,2)<95)
-        <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">+15%</span>
-    @endif
-    @if(number_format($invoice->productivity,2)>=95)
-        <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">+30%</span>
-    @endif
-</div>
-
-<div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
-    <div class="lg:col-span-8 overflow-x-auto rounded-lg bg-stone-900">
-        <table class="table-app text-white">
-            <thead>
-                <tr>
-                    <th scope="col">HS</th>
-                    <th scope="col">Tarea</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Proyecto</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($efforts as $item)
-                <input type="hidden" name="effort[]" value="{{$item->id}}">
-                <tr>
-                    <th scope="row">{{$item->amount}}</th>
-                    <td><a href="/tasks/{{$item->task->id}}">{{$item->task->getTitle()}}</a></td>
-                    <td>{{$item->getDate()}}</td>
-                    <td>{{$item->detail}}</td>
-                    <td><span class="inline-flex rounded-full bg-stone-600 px-2.5 py-0.5 text-xs font-semibold text-white">{{$item->task->project->name}}</span></td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    <div class="lg:col-span-4">
-        <div class="card overflow-hidden">
-            <div class="card-header bg-stone-900 text-center text-xl text-white">Detalle</div>
-            <div class="card-body bg-stone-900 text-white">
-                {!! nl2br(str_replace(' ','&nbsp;',$invoice->detail)) !!}
+    @if (\Auth::user()->isManager() && !$invoice->expence)
+        <section class="card">
+            <div class="card-header">Registrar pago</div>
+            <div class="card-body">
+                <form method="POST" action="/manager/invoice/paid-off" class="page-toolbar items-end">
+                    @csrf
+                    <input class="form-input w-auto" type="text" name="amount" value="{{ $amount }}" placeholder="Pago">
+                    <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
+                    <button type="submit" class="btn btn-primary">Pagar</button>
+                </form>
             </div>
+        </section>
+    @endif
+
+    <dl class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="task-stat">
+            <dt>Total de horas</dt>
+            <dd>{{ $invoice->total }}</dd>
         </div>
+        <div class="task-stat">
+            <dt>Productividad</dt>
+            <dd>{{ number_format($invoice->productivity, 2) }}%</dd>
+        </div>
+        @if (\Auth::user()->isDeveloper())
+            <div class="task-stat">
+                <dt>Estado</dt>
+                <dd>
+                    @if ($invoice->expence)
+                        <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Pagado</span>
+                    @else
+                        <span class="inline-flex rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Adeudado</span>
+                    @endif
+                </dd>
+            </div>
+        @endif
+        @if (number_format($invoice->productivity, 2) >= 75 && number_format($invoice->productivity, 2) < 95)
+            <div class="task-stat">
+                <dt>Bonus</dt>
+                <dd>+15%</dd>
+            </div>
+        @endif
+        @if (number_format($invoice->productivity, 2) >= 95)
+            <div class="task-stat">
+                <dt>Bonus</dt>
+                <dd>+30%</dd>
+            </div>
+        @endif
+    </dl>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <section class="card lg:col-span-8">
+            <div class="card-header">Esfuerzos</div>
+            <div class="card-body overflow-x-auto p-0">
+                <table class="table-app">
+                    <thead>
+                        <tr>
+                            <th scope="col">HS</th>
+                            <th scope="col">Tarea</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Proyecto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($efforts as $item)
+                        <input type="hidden" name="effort[]" value="{{ $item->id }}">
+                        <tr>
+                            <th scope="row">{{ $item->amount }}</th>
+                            <td><a href="/tasks/{{ $item->task->id }}">{{ $item->task->getTitle() }}</a></td>
+                            <td>{{ $item->getDate() }}</td>
+                            <td>{{ $item->detail }}</td>
+                            <td>
+                                <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+                                    {{ $item->task->project->name }}
+                                </span>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card lg:col-span-4">
+            <div class="card-header">Detalle</div>
+            <div class="card-body prose-task text-sm text-stone-700">
+                {!! nl2br(str_replace(' ', '&nbsp;', $invoice->detail)) !!}
+            </div>
+        </section>
     </div>
 </div>
 @endsection

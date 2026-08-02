@@ -4,13 +4,21 @@
 @include('includes.errors')
 @include('includes.messages')
 
-<div class="my-2">
-    <div class="text-2xl font-bold">
-        Nueva Iteración para {{$project->name}}
-        @if ($project->getLastIteration())
-            (Ultima {{$project->getLastIteration()->title}})
-        @endif
-    </div>
-    <div id="create_iteration" project_id={{$project->id}} token={{json_encode(\Session::token())}}></div>
+<div class="page-shell">
+    @include('includes.page-header', [
+        'title' => 'Nueva iteración',
+        'subtitle' => 'Para '.$project->name.($project->getLastIteration() ? ' · Última: '.$project->getLastIteration()->title : ''),
+        'breadcrumbs' => [
+            ['label' => 'Proyectos', 'url' => '/project'],
+            ['label' => $project->name, 'url' => null],
+            ['label' => 'Nueva iteración', 'url' => null],
+        ],
+    ])
+
+    <section class="card">
+        <div class="card-body">
+            <div id="create_iteration" project_id="{{ $project->id }}" token="{{ json_encode(\Session::token()) }}"></div>
+        </div>
+    </section>
 </div>
 @endsection

@@ -272,6 +272,75 @@
     .user_image {
         @apply h-12 w-12 rounded-full object-cover;
     }
+
+    .max_height_table {
+        @apply max-h-80 overflow-y-auto;
+    }
+
+    .page-header {
+        @apply mb-0;
+    }
+
+    .page-shell {
+        @apply space-y-6;
+    }
+
+    .page-toolbar {
+        @apply flex flex-wrap items-center gap-2;
+    }
+
+    .task-stat {
+        @apply rounded-lg border border-stone-200/80 bg-white/80 px-3 py-2.5;
+    }
+
+    .task-stat dt {
+        @apply text-xs font-medium uppercase tracking-wide text-stone-500;
+    }
+
+    .task-stat dd {
+        @apply mt-1 text-sm font-semibold text-stone-900;
+    }
+
+    .task-milestone {
+        @apply flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50/60 px-3 py-2.5 text-sm;
+    }
+
+    .task-milestone-done {
+        @apply border-emerald-100 bg-emerald-50/40;
+    }
+
+    .task-milestone-check {
+        @apply inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs;
+    }
+
+    .task-milestone-done .task-milestone-check {
+        @apply bg-emerald-500 text-white;
+    }
+
+    .task-milestone-pending {
+        @apply border-2 border-stone-300 bg-white;
+    }
+
+    .task-note {
+        @apply flex gap-3 rounded-lg border border-stone-200 bg-white p-3;
+    }
+
+    .task-timeline {
+        @apply relative space-y-4 border-l-2 border-stone-200 pl-4;
+    }
+
+    .task-timeline-item {
+        @apply relative;
+    }
+
+    .task-timeline-item::before {
+        content: "";
+        @apply absolute -left-[1.3rem] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-primary;
+    }
+
+    .prose-task {
+        word-break: break-word;
+    }
 }
 
 /* Marketing transitions */

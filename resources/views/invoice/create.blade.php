@@ -1,101 +1,138 @@
 @extends('layouts.app')
 
 @section('content')
-<form method="POST" action="/manager/invoice">
-    @csrf
-    <input type="hidden" name="user_id" value="{{$user->id}}">
-    <input type="hidden" name="from" value="{{$from}}">
-    <input type="hidden" name="to" value="{{$to}}">
-    <input type="hidden" name="productivity" value="{{$sum}}">
-    <input type="hidden" name="total" value="{{$total}}">
+<div class="page-shell">
+    @include('includes.page-header', [
+        'title' => 'Nueva factura',
+        'subtitle' => 'Revisá esfuerzos y cerrá la liquidación',
+        'breadcrumbs' => [
+            ['label' => 'Facturas', 'url' => '/invoice'],
+            ['label' => 'Crear', 'url' => null],
+        ],
+    ])
 
-    <div class="mb-4 flex flex-wrap gap-2">
-        <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Total de horas: {{$total}}</span>
-        <span class="inline-flex rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Productividad: {{number_format($sum,2)}}%</span>
-    </div>
+    <form method="POST" action="/manager/invoice" class="space-y-6">
+        @csrf
+        <input type="hidden" name="user_id" value="{{ $user->id }}">
+        <input type="hidden" name="from" value="{{ $from }}">
+        <input type="hidden" name="to" value="{{ $to }}">
+        <input type="hidden" name="productivity" value="{{ $sum }}">
+        <input type="hidden" name="total" value="{{ $total }}">
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <div class="lg:col-span-8 overflow-x-auto rounded-lg bg-stone-900">
-            <table class="table-app text-white">
-                <thead>
-                    <tr>
-                        <th scope="col">HS</th>
-                        <th scope="col">Tarea</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Proyecto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($efforts as $item)
-                    <input type="hidden" name="efforts[]" value="{{$item->id}}">
-                    <tr>
-                        <th scope="row">{{$item->amount}}</th>
-                        <td><a href="/tasks/{{$item->task->id}}">{{$item->task->getTitle()}}</a></td>
-                        <td>{{$item->getDate()}}</td>
-                        <td>{{$item->detail}}</td>
-                        <td><span class="inline-flex rounded-full bg-stone-600 px-2.5 py-0.5 text-xs font-semibold text-white">{{$item->task->project->name}}</span></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="lg:col-span-4 space-y-4">
-            <div class="overflow-x-auto rounded-lg bg-stone-900">
-                <table class="table-app text-white">
-                    <thead>
-                        <tr>
-                            <th scope="col">task_id</th>
-                            <th scope="col">total</th>
-                            <th scope="col">estimacion</th>
-                            <th scope="col">productividad</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($total_by_tasks as $item)
-                        <tr>
-                            <th scope="row">{{$item->task_id}}</th>
-                            <td>{{$item->total}}</td>
-                            <td>{{$item->estimation}}</td>
-                            <td>{{number_format($item->productivity * 100,2)}}%</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+        <dl class="grid grid-cols-2 gap-3 sm:grid-cols-2">
+            <div class="task-stat">
+                <dt>Total de horas</dt>
+                <dd>{{ $total }}</dd>
             </div>
+            <div class="task-stat">
+                <dt>Productividad</dt>
+                <dd>{{ number_format($sum, 2) }}%</dd>
+            </div>
+        </dl>
 
-            <div class="rounded-lg bg-stone-900 p-4 text-white">
-                <table class="table-app text-white">
-                    <thead>
-                        <tr>
-                            <th scope="col">proyecto</th>
-                            <th scope="col">Porcentaje</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if ($percentages)
-                            @foreach ($percentages as $key3 => $e)
-                                @if (($e))
-                                    <tr>
-                                        <td>{{$name_project[$e->project_id]}}</td>
-                                        <td>{{ round($e->total / $total,2) * 100}} %</td>
-                                    </tr>
-                                @endif
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+            <section class="card lg:col-span-8">
+                <div class="card-header">Esfuerzos</div>
+                <div class="card-body overflow-x-auto p-0">
+                    <table class="table-app">
+                        <thead>
+                            <tr>
+                                <th scope="col">HS</th>
+                                <th scope="col">Tarea</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Proyecto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($efforts as $item)
+                            <input type="hidden" name="efforts[]" value="{{ $item->id }}">
+                            <tr>
+                                <th scope="row">{{ $item->amount }}</th>
+                                <td><a href="/tasks/{{ $item->task->id }}">{{ $item->task->getTitle() }}</a></td>
+                                <td>{{ $item->getDate() }}</td>
+                                <td>{{ $item->detail }}</td>
+                                <td>
+                                    <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">
+                                        {{ $item->task->project->name }}
+                                    </span>
+                                </td>
+                            </tr>
                             @endforeach
-                        @else
-                            <tr><td colspan="2" class="text-center">Aun no hay tiempos</td></tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-            <input type="number" required name="rate" class="form-input" placeholder="Precio hora">
-            <button type="submit" class="btn btn-primary">Terminar</button>
+            <aside class="space-y-6 lg:col-span-4">
+                <section class="card">
+                    <div class="card-header">Por tarea</div>
+                    <div class="card-body overflow-x-auto p-0">
+                        <table class="table-app">
+                            <thead>
+                                <tr>
+                                    <th scope="col">task_id</th>
+                                    <th scope="col">total</th>
+                                    <th scope="col">estimación</th>
+                                    <th scope="col">productividad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($total_by_tasks as $item)
+                                <tr>
+                                    <th scope="row">{{ $item->task_id }}</th>
+                                    <td>{{ $item->total }}</td>
+                                    <td>{{ $item->estimation }}</td>
+                                    <td>{{ number_format($item->productivity * 100, 2) }}%</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-header">Por proyecto</div>
+                    <div class="card-body overflow-x-auto p-0">
+                        <table class="table-app">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Proyecto</th>
+                                    <th scope="col">Porcentaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($percentages)
+                                    @foreach ($percentages as $key3 => $e)
+                                        @if ($e)
+                                            <tr>
+                                                <td>{{ $name_project[$e->project_id] }}</td>
+                                                <td>{{ round($e->total / $total, 2) * 100 }} %</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <tr><td colspan="2" class="text-center text-stone-500">Aún no hay tiempos</td></tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-header">Cierre</div>
+                    <div class="card-body space-y-3">
+                        <input type="number" required name="rate" class="form-input" placeholder="Precio hora">
+                        <button type="submit" class="btn btn-primary w-full">Terminar</button>
+                    </div>
+                </section>
+            </aside>
         </div>
-    </div>
 
-    <div class="mt-6 max-w-2xl">
-        <textarea name="detail" cols="100" rows="15" class="form-input font-mono text-sm">
+        <section class="card">
+            <div class="card-header">Detalle / evaluación</div>
+            <div class="card-body">
+                <textarea name="detail" rows="15" class="form-input font-mono text-sm">
               <b>Puntos a mejorar: </b>
                 <li></li>
 
@@ -111,7 +148,9 @@
               - capacidad de resolución: 1/10
 
               <i>Observaciones: </i>
-        </textarea>
-    </div>
-</form>
+                </textarea>
+            </div>
+        </section>
+    </form>
+</div>
 @endsection

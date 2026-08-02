@@ -11,7 +11,7 @@
 <body class="login font-display">
     <div class="mx-auto flex max-w-7xl justify-end px-4 pt-4">
         <div class="relative" id="lang-menu-wrap">
-            <button type="button" class="btn-primary" onclick="document.getElementById('lang-menu').classList.toggle('hidden')">
+            <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('lang-menu').classList.toggle('hidden')">
                 {{ Config::get('languages')[App::getLocale()] }}
                 <i class="fas fa-caret-down ml-1"></i>
             </button>
@@ -29,14 +29,17 @@
         <div class="mb-8 flex justify-center">
             <img height="160" width="160" src="{{ asset('images/icon_1.svg') }}" alt="TrackerDev" />
         </div>
-        <h1 class="mb-6 text-center text-2xl font-bold text-stone-900">{{ __('Sign in to TrackerDev') }}</h1>
+        <h1 class="font-display mb-2 text-center text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
+            {{ __('Sign in to TrackerDev') }}
+        </h1>
+        <p class="mb-6 text-center text-sm text-stone-500">Ingresá con tu cuenta</p>
 
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}" class="space-y-4">
                     @csrf
                     <div>
-                        <label for="email" class="form-label text-center">{{ __('E-Mail Address') }}</label>
+                        <label for="email" class="form-label">{{ __('E-Mail Address') }}</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
                                class="form-input @error('email') border-red-500 @enderror">
                         @error('email')
@@ -44,15 +47,15 @@
                         @enderror
                     </div>
                     <div>
-                        <label for="password" class="form-label text-center">{{ __('Password') }}</label>
+                        <label for="password" class="form-label">{{ __('Password') }}</label>
                         <input id="password" type="password" name="password" required autocomplete="current-password"
                                class="form-input @error('password') border-red-500 @enderror">
                         @error('password')
                             <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
-                    <button type="submit" class="btn-primary w-full">
-                        <b>Ingresar</b>
+                    <button type="submit" class="btn btn-primary w-full">
+                        Ingresar
                     </button>
                 </form>
             </div>

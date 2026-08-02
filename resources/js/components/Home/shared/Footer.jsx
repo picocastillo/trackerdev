@@ -78,7 +78,6 @@ const Footer = () => (
                             aria-hidden="true"
                         />
                         Respuesta inmediatas cualquier dia/horario.
-                       
                     </p>
                 </div>
                 <div
