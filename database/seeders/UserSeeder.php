@@ -20,13 +20,13 @@ class UserSeeder extends Seeder
             'role_id' => '1',
             'image' => 'picoDev.png',
         ]);
-        DB::table('users')->insert([
-            'name' => 'Manuel',
-            'email' => 'manuel@trackerdev.com.ar',
-            'password' => '$2y$10$jQsIqrDGWv5alTQMb5XU.OfvzfeA7Lo5q8gpb0cjBnrnqSO4D7./O',
-            'is_active' => true,
-            'role_id' => '2',
-            'image' => 'manuDev.png',
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'Manuel',
+        //     'email' => 'manuel@trackerdev.com.ar',
+        //     'password' => '$2y$10$jQsIqrDGWv5alTQMb5XU.OfvzfeA7Lo5q8gpb0cjBnrnqSO4D7./O',
+        //     'is_active' => true,
+        //     'role_id' => '2',
+        //     'image' => 'manuDev.png',
+        // ]);
     }
 }

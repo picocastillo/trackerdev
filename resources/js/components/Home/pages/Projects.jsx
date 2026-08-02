@@ -1,113 +1,19 @@
 import React, { useState } from "react";
 
-const slides = [
-    {
-        id: 0,
-        title: "Comprobar",
-        badges: [
-            "React Native",
-            "Firebase",
-            "Redux",
-            "Thunk",
-            "Bootstrap",
-            "XD",
-        ],
-        description:
-            "App para el seguimiento de diabetes: cuestionarios, registro de datos y detección temprana de riesgos.",
-        image: "/images/proj_1.webp",
-    },
-    {
-        id: 1,
-        title: "Show Travelers",
-        badges: [
-            "React Native",
-            "PHP",
-            "Bootstrap",
-            "Redux",
-            "Google Map",
-            "Sagas",
-        ],
-        description:
-            "App móvil para viajeros con alertas útiles y propuestas de visitas turísticas durante el viaje.",
-        image: "/images/proj_2.webp",
-    },
-    {
-        id: 2,
-        title: "Sprint",
-        badges: [
-            "React Native",
-            "Laravel",
-            "Barcode",
-            "React JS",
-            "Bootstrap",
-            "Redux",
-            "Sagas",
-            "Expo",
-        ],
-        description:
-            "Ecosistema web + apps iOS/Android para gestionar la logística de paquetería de punta a punta.",
-        image: "/images/proj_4.webp",
-        secondaryImage: "/images/proj_4_1.webp",
-    },
-    {
-        id: 3,
-        title: "Prego",
-        badges: [
-            "React Native",
-            "Laravel",
-            "React JS",
-            "Bootstrap",
-            "Redux",
-            "Sagas",
-            "Landing Page",
-            "Expo",
-            "Figma",
-        ],
-        description:
-            "Marketplace que conecta profesionales con pedidos de trabajo, de forma simple y rápida.",
-        image: "/images/proj_5_1.webp",
-        secondaryImage: "/images/proj_5_2.webp",
-    },
-    {
-        id: 4,
-        title: "Moveler",
-        badges: [
-            "React Native",
-            "Laravel",
-            "React JS",
-            "Redux",
-            "Bootstrap",
-            "Sagas",
-            "Expo",
-            "Figma",
-        ],
-        description:
-            "CMS web que alimenta una app móvil con contenidos y administración centralizada.",
-        image: "/images/proj_6_1.webp",
-        secondaryImage: "/images/proj_6_2.webp",
-    },
-    {
-        id: 5,
-        title: "Estoker",
-        badges: ["Laravel", "React JS", "Bootstrap", "Figma"],
-        description:
-            "Control de stock y productos por Excel o interfaz gráfica, pensado para la operación diaria.",
-        image: "/images/proj_7.webp",
-    },
-    {
-        id: 6,
-        title: "Seccoplac",
-        badges: ["Laravel", "React JS", "Bootstrap", "Landing Page"],
-        description:
-            "Sitio corporativo para captar clientes y franquiciados, con catálogo de productos y chatbot.",
-        image: "/images/proj_3.webp",
-    },
-];
+function getSlides() {
+    if (
+        typeof window !== "undefined" &&
+        Array.isArray(window.__PORTFOLIO_PROJECTS__)
+    ) {
+        return window.__PORTFOLIO_PROJECTS__;
+    }
+    return [];
+}
 
 function BadgeList({ badges }) {
     return (
         <div className="mt-3 flex flex-wrap gap-2">
-            {badges.map((badge) => (
+            {(badges || []).map((badge) => (
                 <span
                     key={badge}
                     className="inline-flex border border-white/15 bg-white/5 px-2.5 py-0.5 text-xs font-medium text-white/75"
@@ -120,6 +26,7 @@ function BadgeList({ badges }) {
 }
 
 export default function Projects() {
+    const slides = getSlides();
     const [activeIndex, setActiveIndex] = useState(0);
     const slide = slides[activeIndex];
 
@@ -127,6 +34,21 @@ export default function Projects() {
         setActiveIndex((i) => (i === 0 ? slides.length - 1 : i - 1));
     const goNext = () =>
         setActiveIndex((i) => (i === slides.length - 1 ? 0 : i + 1));
+
+    if (!slides.length || !slide) {
+        return (
+            <section
+                id="proyectos"
+                className="relative bg-gradient-to-br from-primary-dark via-brand-dark to-stone-900 py-20 md:py-28"
+            >
+                <div className="mx-auto max-w-7xl px-4 md:px-6">
+                    <h2 className="font-display text-center text-3xl font-bold text-white md:text-4xl">
+                        Proyectos que impulsamos
+                    </h2>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section

@@ -4,24 +4,17 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\PortfolioProjectController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/methodology', function () {
-    return view('welcome');
-});
-Route::get('/projects', function () {
-    return view('welcome');
-});
-Route::get('/contact', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicController::class, 'welcome']);
+Route::get('/methodology', [PublicController::class, 'welcome']);
+Route::get('/projects', [PublicController::class, 'welcome']);
+Route::get('/contact', [PublicController::class, 'welcome']);
 Route::post('/contact-form', [PublicController::class, 'contactForm']);
 
 Route::middleware('guest')->group(function () {
@@ -41,6 +34,13 @@ Route::middleware(['auth', 'role:senior'])->group(function () {
     Route::get('/project', [ProjectController::class, 'index']);
     Route::post('/project/create', [ProjectController::class, 'store']);
     Route::get('/project/{id}', [ProjectController::class, 'show']);
+
+    Route::get('/portfolio', [PortfolioProjectController::class, 'index']);
+    Route::get('/portfolio/create', [PortfolioProjectController::class, 'create']);
+    Route::post('/portfolio/create', [PortfolioProjectController::class, 'store']);
+    Route::get('/portfolio/{id}/edit', [PortfolioProjectController::class, 'edit']);
+    Route::put('/portfolio/{id}/edit', [PortfolioProjectController::class, 'update']);
+    Route::delete('/portfolio/{id}', [PortfolioProjectController::class, 'destroy']);
 
     Route::post('/reports', [ReportController::class, 'create']);
     Route::post('/reports/new', [ManagerController::class, 'createReport']);

@@ -42,6 +42,7 @@
                             @if (isManager())
                                 <li><a class="text-white hover:text-stone-200" href="/task/create">Crear Tarea</a></li>
                                 <li><a class="text-white hover:text-stone-200" href="/project">Proyectos</a></li>
+                                <li><a class="text-white hover:text-stone-200" href="/portfolio">Portfolio web</a></li>
                             @endif
                             <li class="relative" id="user-menu-wrap">
                                 <button type="button" class="text-white hover:text-stone-200" onclick="document.getElementById('user-menu').classList.toggle('hidden')">

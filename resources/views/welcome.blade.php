@@ -223,6 +223,9 @@
         gtag('js', new Date());
         gtag('config', 'G-TY9Z038WBJ');
     </script>
+    <script>
+        window.__PORTFOLIO_PROJECTS__ = @json($portfolioProjects ?? []);
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
 </head>
 <body class="public-shell font-sans antialiased overflow-x-hidden">
