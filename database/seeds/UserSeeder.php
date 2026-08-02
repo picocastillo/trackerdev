@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'password' => '$2y$10$TzNxX7S1.RF.BF2WSUzHkO1DaxRp.L7HLXuM1.uu0BHHvY35k48Ii',
             'is_active' => true,
             'role_id' => '1',
-            'image' => 'pico_profile.jpg'
+            'image' => 'picoDev.png'
         ]);
         DB::table('users')->insert([//1
             'name' => 'Manuel',
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'password' => '$2y$10$jQsIqrDGWv5alTQMb5XU.OfvzfeA7Lo5q8gpb0cjBnrnqSO4D7./O',
             'is_active' => true,
             'role_id' => '2',
-            'image' => 'pico_profile.jpg'
+            'image' => 'manuDev.png'
         ]);
         // DB::table('users')->insert([//2
         //     'name' => 'milton',

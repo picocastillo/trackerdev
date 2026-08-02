@@ -87,6 +87,15 @@ function isDeveloper(){
     $role = \Auth::user()->role->seniority;
     return ($role=="senior" || $role=="semi-senior" || $role=="junior" );
 }
+function cut($number)
+{
+    return number_format($number,2);
+}
+ 
+function cuth($number)
+{
+    return number_format($number,1);
+}
  
 
 function isManager(){

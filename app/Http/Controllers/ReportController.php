@@ -45,7 +45,21 @@ class ReportController extends Controller
             abort(401,"No podes ver este reporte");
         }
         $tasks = Task::whereIn('id',explode(',',$report->tasks))->get();
-        return view('reports.show',compact('report','tasks'));
+        $efforts = Effort::whereIn('id',explode(',',$report->efforts))->where('task_id',null)->get();
+
+        $by_project = [];
+        foreach ($efforts as $key => $value) {
+            $by_project[$value->project->name][] = [
+                "amount" => $value->amount,
+                "detail" => $value->detail,
+                "date" => $value->getDate(),
+                "task_id" => $value->task_id,
+                "title_task" => $value->task ? $value->task->getTitle() : '',
+            ];
+        }
+        // dd($by_project);
+
+        return view('reports.show',compact('report','tasks','efforts','by_project'));
     }
 
     function create(Request $request){
@@ -67,9 +81,10 @@ class ReportController extends Controller
             $projects_ids = $user->projects()->pluck('projects.id')->toArray();
             $tasks = Task::wherein('project_id',$projects_ids)->whereBetween('created_at', [$from, $to])->get();
             $projects = $user->projects;
+            $efforts = Effort::wherein('project_id',$projects_ids)->whereBetween('created_at', [$from, $to])->get();
             // $times = $user->efforts()->whereBetween('created_at', [$week_start, date('Y-m-d', strtotime('+6 days'))])->get();
             // $week_hours = $user->efforts()->whereBetween('created_at', [$week_start, $week_end])->sum('amount');
-            return view('reports.create',compact('user','tasks','from','to','projects'));
+            return view('reports.create',compact('user','tasks','from','to','projects','efforts'));
             
             
         }else { //is developer
@@ -94,6 +109,7 @@ class ReportController extends Controller
             'billed_hours' => 'required',
             'rate' => 'required',
         ]);
+        // dd($request->all());
         $report = Report::orderby('id','desc')->where('user_id',$request->user_id)->first();
         if ($report && date($report->to)>=date($request->from)){
             return redirect()->back()->with('alert-danger','Estas creando un reporte con una fecha ya incluida por otro para un mismo usuario');
@@ -104,7 +120,7 @@ class ReportController extends Controller
             $user = User::FindOrFail($request->user_id);
 
             if ($user->isDeveloper()){
-                Report::create([
+                $report = Report::create([
                     'from'=> $request->from,
                     'to'=> $request->to,
                     'user_id' => $request->user_id,
@@ -115,18 +131,10 @@ class ReportController extends Controller
                     'rate' => $request->rate,
                     'detail' => $request->detail ? $request->detail : '',
                 ]);
+                Effort::wherein('id',$request->efforts)->update(['paid'=>true]);
             }else {
-
-                $iterations = Iteration::join('projects','projects.id','=','iterations.project_id')
-                                    ->join('project_user','project_user.project_id','=','projects.id')
-                                    ->where('project_user.user_id',$request->user_id)
-                                    ->select('iterations.id')
-                                    ->get();
-                foreach ($iterations as $value) {
-                    $value->is_active = false;
-                    $value->save();
-                }
-                Report::create([
+          
+                $report = Report::create([
                     'from'=> $request->from,
                     'to'=> $request->to,
                     'user_id' => $request->user_id,
@@ -150,7 +158,7 @@ class ReportController extends Controller
 
         }
 
-        return redirect()->back();
+        return redirect('reports/'.$report->id);
 
 
     }

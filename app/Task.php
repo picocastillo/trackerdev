@@ -111,18 +111,18 @@ class Task extends Model
         }else {
             if (!$total_efforts)
                 return 0;
-            return $this->estimation / $total_efforts;
+            return $this->estimation * 60  / $total_efforts;
         }
         
     }
 
-    function getProductivity2($user_id){ //productivity by effort
+    function getProductivity2($user_id){ //productivity by effort billed
         $has_two_efforts = false;
         $total_efforts = self::getEfforts();
         
         if (!$total_efforts)
             return 0;
-        return $this->estimation / $total_efforts;
+        return $this->billed * 60 / $total_efforts;
     }
         
     function getChildsProgress(){
@@ -181,7 +181,11 @@ class Task extends Model
         ];
     }
     function totalHours(){
-        return number_format($this->efforts()->sum('amount')/60,2);
+        $sum = 0;
+        foreach ($this->efforts as $key => $value) {
+            $sum += $value->amount * $value->user->role->weight;
+        }
+        return number_format($sum/60,2);
     }
     function totalHoursByUser($user_id){
         return $this->efforts()->where('user_id',$user_id)->sum('amount');
