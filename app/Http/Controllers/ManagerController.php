@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
-use \App\Iteration;
-use \App\Task;
+use App\Models\Iteration;
+use App\Models\Task;
 use Carbon\Carbon;
-use \App\Deposit;
-use \App\Project;
-use \App\Effort;
-use \App\User;
-use \App\Item;
+use App\Models\Deposit;
+use App\Models\Project;
+use App\Models\Effort;
+use App\Models\User;
+use App\Models\Item;
 
 class ManagerController extends Controller
 {

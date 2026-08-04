@@ -1,6 +1,6 @@
 <?php
- use \App\Task;
- use \App\Project;
+ use App\Models\Task;
+ use App\Models\Project;
 function getNameState($number){
     switch ($number) {
         case 1: return "New";

@@ -1,16 +1,9 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div class="flash-message">
-        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-          @if(Session::has('alert-' . $msg))
-            <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}
-              
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </p>
-          @endif
-        @endforeach
-      </div>
-    </div>
-  </div>
+<div class="mb-4 space-y-2">
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+        @if (Session::has('alert-' . $msg))
+            <div class="alert-{{ $msg }} flex items-start justify-between gap-3">
+                <p>{{ Session::get('alert-' . $msg) }}</p>
+            </div>
+        @endif
+    @endforeach
 </div>

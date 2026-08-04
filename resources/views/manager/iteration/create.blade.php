@@ -3,26 +3,22 @@
 @section('content')
 @include('includes.errors')
 @include('includes.messages')
-<div class="container">
-    <div class="">
-        <div class="col-12 my-2">
-            <div class="h2">
-                Nueva Iteración para {{$project->name}}      
-                @if ($project->getLastIteration())
-                    (Ultima {{$project->getLastIteration()->title}})
-                @endif
-            </div>              
+
+<div class="page-shell">
+    @include('includes.page-header', [
+        'title' => 'Nueva iteración',
+        'subtitle' => 'Para '.$project->name.($project->getLastIteration() ? ' · Última: '.$project->getLastIteration()->title : ''),
+        'breadcrumbs' => [
+            ['label' => 'Proyectos', 'url' => '/project'],
+            ['label' => $project->name, 'url' => null],
+            ['label' => 'Nueva iteración', 'url' => null],
+        ],
+    ])
+
+    <section class="card">
+        <div class="card-body">
+            <div id="create_iteration" project_id="{{ $project->id }}" token="{{ json_encode(\Session::token()) }}"></div>
         </div>
-        
-        <div id="create_iteration"  project_id={{$project->id}} token={{json_encode(\Session::token())}}></div>
-    </div>
-
+    </section>
 </div>
-    
-    
-
-
-@endsection
-@section('scripts')
-<script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 @endsection

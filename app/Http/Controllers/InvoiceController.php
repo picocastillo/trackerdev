@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Invoice;
-use \App\Expense;
-use \App\Effort;
-use \App\User;
+use App\Models\Invoice;
+use App\Models\Expense;
+use App\Models\Effort;
+use App\Models\User;
 use DB;
 
 class InvoiceController extends Controller
