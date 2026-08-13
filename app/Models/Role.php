@@ -29,4 +29,7 @@ class Role extends Model
     function isJunior(){
         return $this->seniority=="junior";
     }
+    function isProfessional(){
+        return $this->seniority=="professional";
+    }
 }

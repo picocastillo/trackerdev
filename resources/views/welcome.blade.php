@@ -15,22 +15,23 @@
 
         $pages = [
             '/' => [
-                'title' => 'TrackerDev | Desarrollo de software web y móvil a medida',
-                'description' => 'Empresa de desarrollo de software en Santa Fe, Argentina. Creamos aplicaciones web, apps móviles, sistemas a medida y landing pages con diseño, desarrollo y testing profesional.',
+                'title' => 'Desarrollo de software en Santo Tomé y Santa Fe | TrackerDev',
+                'description' => 'Empresa de desarrollo de software en Santo Tomé, Santa Fe, Argentina. Creamos software web, apps móviles Android e iOS, sistemas a medida, ERP, CRM y landing pages.',
             ],
             '/methodology' => [
-                'title' => 'Metodología de desarrollo de software | TrackerDev',
-                'description' => 'Conocé cómo TrackerDev desarrolla software: descubrimiento, prototipo, presupuesto y producto funcional. Proceso claro para proyectos web y móviles.',
+                'title' => 'Metodología de desarrollo web y móvil | TrackerDev Santo Tomé',
+                'description' => 'Cómo desarrollamos software web y apps móviles en Santo Tomé y Santa Fe: descubrimiento, prototipo, presupuesto y producto funcional.',
             ],
             '/projects' => [
-                'title' => 'Proyectos de desarrollo de software | TrackerDev',
-                'description' => 'Casos de desarrollo de software de TrackerDev: apps móviles, sistemas web y productos digitales a medida para distintos rubros.',
+                'title' => 'Proyectos de software web y móvil | TrackerDev Santa Fe',
+                'description' => 'Casos de desarrollo de software en Santo Tomé y Santa Fe: aplicaciones web, apps móviles y productos digitales a medida.',
             ],
             '/contact' => [
-                'title' => 'Contacto | Desarrollo de software TrackerDev',
-                'description' => 'Contactá a TrackerDev por WhatsApp para cotizar desarrollo de software web o móvil a medida. Santa Fe, Argentina.',
+                'title' => 'Contacto | Desarrollo de software en Santo Tomé y Santa Fe',
+                'description' => 'Contactá a TrackerDev por WhatsApp para cotizar desarrollo de software web o móvil a medida. Santo Tomé, Santa Fe, Argentina.',
             ],
         ];
+        $keywords = 'desarrollo de software en santa fe argentina, desarrollo de software en santo tome argentina, desarrollo web santa fe, desarrollo de apps móviles santa fe, software a medida, aplicaciones web, aplicaciones móviles android ios, erp crm, landing pages';
         $page = $pages[$path] ?? $pages['/'];
         $title = $page['title'];
         $description = $page['description'];
@@ -40,8 +41,11 @@
 
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
+    <meta name="keywords" content="{{ $keywords }}">
     <meta name="author" content="TrackerDev">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="geo.region" content="AR-S">
+    <meta name="geo.placename" content="Santo Tomé">
     <link rel="canonical" href="{{ $canonical }}">
 
     <meta property="og:locale" content="es_AR">
@@ -55,7 +59,7 @@
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1920">
     <meta property="og:image:height" content="1280">
-    <meta property="og:image:alt" content="TrackerDev - desarrollo de software web y móvil">
+    <meta property="og:image:alt" content="TrackerDev - desarrollo de software web y móvil en Santo Tomé y Santa Fe">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $title }}">
@@ -94,7 +98,7 @@
                 'telephone' => '+54-342-528-7592',
                 'address' => [
                     '@type' => 'PostalAddress',
-                    'addressLocality' => 'Santa Fe',
+                    'addressLocality' => 'Santo Tomé',
                     'addressRegion' => 'Santa Fe',
                     'addressCountry' => 'AR',
                 ],
@@ -120,30 +124,49 @@
                 'name' => 'TrackerDev',
                 'url' => $siteUrl . '/',
                 'image' => $ogImage,
-                'description' => 'Servicios de desarrollo de software: aplicaciones web, apps móviles, sistemas a medida, diseño UX/UI y landing pages.',
+                'description' => $pages['/']['description'],
                 'telephone' => '+54-342-528-7592',
                 'priceRange' => '$$',
                 'address' => [
                     '@type' => 'PostalAddress',
-                    'addressLocality' => 'Santa Fe',
+                    'addressLocality' => 'Santo Tomé',
                     'addressRegion' => 'Santa Fe',
                     'addressCountry' => 'AR',
                 ],
                 'geo' => [
                     '@type' => 'GeoCoordinates',
-                    'latitude' => -31.6333,
-                    'longitude' => -60.7,
+                    'latitude' => -31.6625,
+                    'longitude' => -60.7653,
                 ],
                 'areaServed' => [
-                    '@type' => 'Country',
-                    'name' => 'Argentina',
+                    [
+                        '@type' => 'City',
+                        'name' => 'Santo Tomé',
+                    ],
+                    [
+                        '@type' => 'City',
+                        'name' => 'Santa Fe',
+                    ],
+                    [
+                        '@type' => 'AdministrativeArea',
+                        'name' => 'Provincia de Santa Fe',
+                    ],
+                    [
+                        '@type' => 'Country',
+                        'name' => 'Argentina',
+                    ],
                 ],
                 'knowsAbout' => [
-                    'Desarrollo de software',
+                    'Desarrollo de software en Santo Tomé',
+                    'Desarrollo de software en Santa Fe',
+                    'Desarrollo de software web',
+                    'Desarrollo de aplicaciones móviles Android e iOS',
                     'Desarrollo web',
-                    'Desarrollo de aplicaciones móviles',
-                    'Diseño UX UI',
                     'Software a medida',
+                    'Sistemas web',
+                    'ERP y CRM',
+                    'Diseño UX UI',
+                    'Landing pages',
                     'Laravel',
                     'React',
                 ],
@@ -234,12 +257,15 @@
         <main style="max-width:720px;margin:2rem auto;padding:1rem;color:#fff;font-family:sans-serif;">
             <h1>{{ $title }}</h1>
             <p>{{ $description }}</p>
+            <p>Sede en Santo Tomé. Zona de servicio: Santa Fe capital y Gran Santa Fe, Argentina.</p>
             <h2>Servicios de desarrollo de software</h2>
             <ul>
                 <li>Desarrollo de sistemas web a medida</li>
                 <li>Desarrollo de aplicaciones móviles Android e iOS</li>
+                <li>ERP y CRM</li>
                 <li>Diseño UX/UI y prototipado</li>
                 <li>Landing pages orientadas a conversión</li>
+                <li>Hardware e IoT</li>
             </ul>
             <nav>
                 <a href="{{ $siteUrl }}/">Inicio</a> ·

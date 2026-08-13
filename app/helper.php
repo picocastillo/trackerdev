@@ -85,7 +85,11 @@ function isSenior(){
 function isDeveloper(){
     if (!\Auth::user()) return false;
     $role = \Auth::user()->role->seniority;
-    return ($role=="senior" || $role=="semi-senior" || $role=="junior" );
+    return ($role=="senior" || $role=="semi-senior" || $role=="junior" || $role=="professional");
+}
+function isProfessional(){
+    if (!\Auth::user()) return false;
+    return \Auth::user()->role->seniority=="professional";
 }
 function cut($number)
 {

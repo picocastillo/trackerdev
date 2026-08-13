@@ -60,7 +60,7 @@
                         </thead>
                         <tbody>
                             @php $total = 0; @endphp
-                            @foreach ($efforts as $effort)
+                            @foreach ($efforts ?? [] as $effort)
                                 <tr>
                                     <td>
                                         {{ $effort->detail }}

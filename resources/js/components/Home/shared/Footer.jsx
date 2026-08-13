@@ -68,7 +68,7 @@ const Footer = () => (
                         className="fas fa-location-dot text-primary-light"
                         aria-hidden="true"
                     />
-                    Santa Fe, Argentina
+                    Santo Tomé, Santa Fe, Argentina
                 </p>
                 <div data-aos="fade-up" data-aos-delay="200" className="mt-6">
                     <WhatsAppLink label="Chateá con nosotros" />

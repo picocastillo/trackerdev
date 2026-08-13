@@ -11,7 +11,7 @@
         ],
     ])
 
-@if ($user->role->seniority == "senior" || $user->role->seniority == "semi-senior" || $user->role->seniority == "junior")
+@if ($user->isDeveloper())
 <form action="/reports/store" method="post" class="space-y-6">
     @csrf
     <input type="hidden" name="to" value="{{ $to }}">

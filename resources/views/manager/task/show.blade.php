@@ -52,17 +52,21 @@
                         @endif
                     </div>
 
-                    @if (isManager())
+                    @if (isManager() || isProfessional())
                         <div class="flex flex-wrap items-center gap-2">
-                            <a href="/task/{{ $task->id }}/edit" class="btn btn-outline btn-sm" title="Editar">
-                                <i class="fa fa-edit mr-1.5"></i> Editar
-                            </a>
+                            @if (isManager())
+                                <a href="/task/{{ $task->id }}/edit" class="btn btn-outline btn-sm" title="Editar">
+                                    <i class="fa fa-edit mr-1.5"></i> Editar
+                                </a>
+                            @endif
                             <a href="/task/{{ $task->id }}/create-a-child" class="btn btn-outline btn-sm" title="Crear tarea hija">
                                 <i class="fa fa-plus mr-1"></i><i class="fa fa-child"></i>
                             </a>
-                            <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('add_time').showModal()" title="Agregar tiempo">
-                                <i class="fa fa-clock mr-1.5"></i> Tiempo
-                            </button>
+                            @if (isManager())
+                                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('add_time').showModal()" title="Agregar tiempo">
+                                    <i class="fa fa-clock mr-1.5"></i> Tiempo
+                                </button>
+                            @endif
                         </div>
                     @endif
                 </div>
