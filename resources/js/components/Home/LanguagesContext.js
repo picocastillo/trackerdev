@@ -15,7 +15,7 @@ export const language = {
             _2: "hacer crecer tu negocio.",
             _3: "Automatizar procesos.",
             _4: "Decidir con información clara y precisa.",
-            lead: "Diseñamos, desarrollamos, probamos, ponemos en producción y mantenemosp software web y móviles a medida, desde 2018.",
+            lead: "Diseñamos, desarrollamos, probamos, ponemos en producción y mantenemos software web y móvil a medida desde Santo Tomé, Santa Fe, Argentina, desde 2018.",
         },
         methodology: {
             left_1: "Metodología de trabajo",
@@ -95,7 +95,7 @@ export const language = {
             _2: "grow your business.",
             _3: "Automate processes.",
             _4: "Make decisions with clear, precise data.",
-            lead: "We design, build, and test custom web and mobile products from Santa Fe, Argentina.",
+            lead: "We design, build, and test custom web and mobile software from Santo Tomé, Santa Fe, Argentina.",
         },
         methodology: {
             left_1: "How we work",

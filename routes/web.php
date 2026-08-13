@@ -9,6 +9,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicController::class, 'welcome']);
@@ -42,19 +43,30 @@ Route::middleware(['auth', 'role:senior'])->group(function () {
     Route::put('/portfolio/{id}/edit', [PortfolioProjectController::class, 'update']);
     Route::delete('/portfolio/{id}', [PortfolioProjectController::class, 'destroy']);
 
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/create', [UserController::class, 'create']);
+    Route::post('/users/create', [UserController::class, 'store']);
+    Route::get('/users/{id}/edit', [UserController::class, 'edit']);
+    Route::put('/users/{id}/edit', [UserController::class, 'update']);
+    Route::patch('/users/{id}/deactivate', [UserController::class, 'deactivate']);
+    Route::patch('/users/{id}/activate', [UserController::class, 'activate']);
+
     Route::post('/reports', [ReportController::class, 'create']);
     Route::post('/reports/new', [ManagerController::class, 'createReport']);
     Route::post('/reports/details', [ManagerController::class, 'detailReport']);
     Route::post('/reports/store', [ReportController::class, 'store']);
 
-    Route::get('/task/create', [TaskController::class, 'create']);
     Route::get('/task/delete/{id}', [TaskController::class, 'delete']);
-    Route::post('/task/create', [TaskController::class, 'store']);
     Route::get('/task/{task_id}/edit', [TaskController::class, 'edit']);
-    Route::get('/task/{task_id}/create-a-child', [TaskController::class, 'createAChild']);
     Route::post('/task/update', [TaskController::class, 'update']);
     Route::post('/tasks/add-time', [TaskController::class, 'addTime']);
     Route::post('/tasks/add-watcher', [TaskController::class, 'addWatcher']);
+});
+
+Route::middleware(['auth', 'role:senior,professional'])->group(function () {
+    Route::get('/task/create', [TaskController::class, 'create']);
+    Route::post('/task/create', [TaskController::class, 'store']);
+    Route::get('/task/{task_id}/create-a-child', [TaskController::class, 'createAChild']);
 });
 
 Route::middleware(['auth', 'permissions'])->group(function () {

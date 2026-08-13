@@ -70,7 +70,7 @@
                                 <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
                                 <label class="form-label">Proyecto</label>
                                 <select name="project_id" class="form-input">
-                                    @foreach ($projects as $key => $item)
+                                    @foreach (\Auth::user()->projects as $item)
                                         <option {{ request()->has('project_id') && request()->project_id == $item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>

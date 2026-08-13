@@ -59,8 +59,8 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-12">
-                        <div class="sm:col-span-10">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-end">
+                        <div class="min-w-0 flex-1">
                             <label class="form-label">Título</label>
                             @if ($isEdit)
                                 <input type="text" value="{{ $task->name }}" class="form-input" name="name" required>
@@ -68,14 +68,16 @@
                                 <input type="text" class="form-input" name="name" required>
                             @endif
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="form-label text-center">F</label>
-                            @if ($isEdit)
-                                <input type="text" value="{{ $task->billed }}" class="form-input" name="billed" required>
-                            @else
-                                <input type="text" class="form-input" name="billed" required>
-                            @endif
-                        </div>
+                        @if (isSenior())
+                            <div class="w-full sm:w-20">
+                                <label class="form-label text-center">F</label>
+                                @if ($isEdit)
+                                    <input type="text" value="{{ $task->billed }}" class="form-input" name="billed" required>
+                                @else
+                                    <input type="text" class="form-input" name="billed" required>
+                                @endif
+                            </div>
+                        @endif
                     </div>
 
                     <div>

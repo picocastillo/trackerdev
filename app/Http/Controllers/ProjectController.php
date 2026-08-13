@@ -2,142 +2,147 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Project;
-use Illuminate\Support\Facades\Validator;
-
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use DateTime;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
-    function create(){
-        $users = User::all();
-        return view('projects.create',compact('users'));
+    public function create()
+    {
+        $users = $this->formUsers();
+
+        return view('projects.create', compact('users'));
     }
 
-    function edit($id){
-        $users = User::all();
-        $project = Project::findOrFail($id);
-        return view('projects.create',compact('users','project'));
+    public function edit($id)
+    {
+        $project = Project::with('users')->findOrFail($id);
+        $users = $this->formUsers($project);
+
+        return view('projects.create', compact('users', 'project'));
     }
 
-
-    function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
-            'users_ids' => 'required',
-            'title' => 'required',
+            'title' => 'required|string|max:255',
+            'users_ids' => 'required|array|min:1',
+            'users_ids.*' => 'integer|exists:users,id',
+            'create_client' => 'nullable|boolean',
+            'client_name' => 'required_if:create_client,1|nullable|string|max:255',
+            'client_email' => 'required_if:create_client,1|nullable|email|max:255|unique:users,email',
         ]);
-
 
         try {
             DB::beginTransaction();
-           
-            $ids = explode(',',$request->users_ids);
 
-            $has_a_stackeholder = false;
-            $name_project_and_client = explode('-',$request->title);
-            $project_name = "";
-            $user_client = null;
-            $email = null;
+            $ids = collect($request->input('users_ids', []))->map(fn ($id) => (int) $id)->unique()->values();
             $password = null;
-            if (count($name_project_and_client)==3){
-                $project_name = $name_project_and_client[0];
-                $email = $name_project_and_client[2];
-                $password="firstpass";
-                $user_client = User::create([
-                    'name' => $name_project_and_client[1],
+            $email = null;
+
+            if ($request->boolean('create_client')) {
+                $password = Str::password(12);
+                $email = $request->client_email;
+                $clientRole = Role::where('seniority', 'stackeholder')->firstOrFail();
+
+                $userClient = User::create([
+                    'name' => $request->client_name,
                     'email' => $email,
-                    'password' => bcrypt($password),
+                    'password' => $password,
                     'is_active' => false,
-                    'role_id' => 4,
+                    'role_id' => $clientRole->id,
                 ]);
-            }else {
-                $project_name = $request->title;
+
+                $ids->push($userClient->id);
             }
-            if ($user_client)
-                $ids[] = $user_client->id;
-
-
 
             $project = Project::create([
-                'name' => $project_name,
+                'name' => $request->title,
             ]);
 
-            foreach ($ids as $id) {
-                $user = User::findOrFail($id);
-                $user->projects()->attach($project->id);
-                
-            }
-           
-
-            
+            $project->users()->sync($ids->all());
 
             DB::commit();
-            if ($password)
-                return redirect()->back()->with('alert-success',"Agregado con exito, la contraseña para el usuario ".$email." es ".$password);
-            else
-                return redirect()->back()->with('alert-success',"Agregado con exito");
 
-  
+            if ($password) {
+                return redirect('/project')->with(
+                    'alert-success',
+                    "Proyecto creado con éxito. La contraseña para {$email} es {$password}"
+                );
+            }
+
+            return redirect('/project')->with('alert-success', 'Proyecto creado con éxito');
         } catch (\Exception $e) {
-    
-            DB::rollback();
-            dd($e);
+            DB::rollBack();
+
+            return redirect()->back()->with('alert-danger', $e->getMessage())->withInput();
         }
-
-
     }
-    function update(Request $request,$id){
-        $request->validate([
-            'users_ids' => 'required',
-            'title' => 'required',
-        ]);
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'users_ids' => 'required|array|min:1',
+            'users_ids.*' => 'integer|exists:users,id',
+        ]);
 
         try {
             DB::beginTransaction();
-            $project = Project::findOrFail($id);
-            $ids = explode(',',$request->users_ids);
 
-            foreach ($ids as $_id) {
-                DB::table('project_user')->where('project_id',$id)->where('user_id',$_id)->delete();
-                $user = User::findOrFail($_id);
-                $user->projects()->attach($project->id);
-            }
+            $project = Project::findOrFail($id);
+            $project->update([
+                'name' => $request->title,
+            ]);
+
+            $ids = collect($request->input('users_ids', []))->map(fn ($id) => (int) $id)->unique()->values();
+            $project->users()->sync($ids->all());
 
             DB::commit();
-            return redirect()->back()->with('alert-success',"Modificado con éxito");
 
-  
+            return redirect('/project')->with('alert-success', 'Proyecto modificado con éxito');
         } catch (\Exception $e) {
-    
-            DB::rollback();
-            dd($e);
+            DB::rollBack();
+
+            return redirect()->back()->with('alert-danger', $e->getMessage())->withInput();
+        }
+    }
+
+    public function index()
+    {
+        $projects = Project::select('name', 'id')->orderBy('id', 'desc')->get();
+
+        return view('projects.index', ['projects' => $projects]);
+    }
+
+    public function show($id)
+    {
+        if (! isSenior() && ! isClient()) {
+            abort(401, 'No podes ver esta pagina');
         }
 
-
-    }
-
-
-
-    function index(){
-        $user = \Auth::user();
-        $projects =  Project::select('name','id')->orderby('id','desc')->get();
-
-        return view('projects.index', [  'projects' => $projects]);
-
-    }
-
-
-    function show($id){
-        if (!isSenior() && !isClient())
-            abort(401,"No podes ver esta pagina");
         $project = Project::findOrFail($id);
-        return view('projects.show',compact('project'));
+
+        return view('projects.show', compact('project'));
     }
 
+    private function formUsers(?Project $project = null)
+    {
+        $assignedIds = $project ? $project->users->pluck('id') : collect();
 
+        return User::with('role')
+            ->where(function ($query) use ($assignedIds) {
+                $query->where('is_active', true);
+
+                if ($assignedIds->isNotEmpty()) {
+                    $query->orWhereIn('id', $assignedIds);
+                }
+            })
+            ->orderBy('name')
+            ->get();
+    }
 }

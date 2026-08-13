@@ -114,7 +114,7 @@ function Home() {
                                         className="fas fa-location-dot text-primary-light"
                                         aria-hidden="true"
                                     />
-                                    Santa Fe, Argentina
+                                    Santo Tomé, Santa Fe
                                 </li>
                                 <li className="inline-flex items-center gap-2">
                                     <i
@@ -179,9 +179,9 @@ function Home() {
                         data-aos-delay="120"
                         className="mx-auto mt-3 max-w-2xl text-center text-white/65"
                     >
-                        Desde la idea hasta el producto en producción: web, ERP,
-                        CRM, hardware e IoT, con foco en claridad, calidad y
-                        resultados.
+                        Desde la idea hasta el producto en producción:
+                        desarrollo web, apps móviles, ERP, CRM, hardware e IoT,
+                        con foco en claridad, calidad y resultados.
                     </p>
 
                     <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">

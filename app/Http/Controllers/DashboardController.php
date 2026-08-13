@@ -72,17 +72,20 @@ class DashboardController extends Controller
             $projects = Project::all();
             return view('home',compact('tasks','devs','projects'));
 
-        }else if (isDeveloper()){
-            $tasks = Task::where('is_active',true)->where('user_id',\Auth::user()->id)->orderby('id','desc')->paginate(10);
-            $devs = User::where('role_id','!=',4)->get();
+        } elseif (isDeveloper()) {
+            $tasks = Task::where('is_active', true)->where('user_id', \Auth::user()->id)->orderby('id', 'desc')->paginate(10);
+            $devs = User::where('role_id', '!=', 4)->get();
             $projects = \Auth::user()->projects;
-            return view('home',compact('tasks','devs','projects'));
-        }
-        //is client
-        $reports = Report::where('user_id',\Auth::user()->id)->paginate(10);
-        $tasks  = Task::where('paid',false)->get();
 
-        return view('reports.index',compact('reports','tasks'));
+            return view('home', compact('tasks', 'devs', 'projects'));
+        } elseif (isClient()) {
+            $reports = Report::where('user_id', \Auth::user()->id)->paginate(10);
+            $tasks = Task::where('paid', false)->get();
+
+            return view('reports.index', compact('reports', 'tasks'));
+        }
+
+        return app(ReportController::class)->index();
         
     }
 

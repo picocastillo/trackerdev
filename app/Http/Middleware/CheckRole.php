@@ -13,12 +13,12 @@ class CheckRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if ($request->user()->getRole()!=$role){
-            abort(401,"No podes acceder a la página.");
+        if (! $request->user() || ! in_array($request->user()->getRole(), $roles, true)) {
+            abort(401, 'No podes acceder a la página.');
         }
-        
+
         return $next($request);
     }
 }
