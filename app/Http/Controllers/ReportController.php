@@ -28,10 +28,18 @@ class ReportController extends Controller
             $reports = Report::orderby('id','desc')->paginate(10);
             return view('reports.index',compact('users','start_date','end_date','reports','efforts'));
         }else if (isClient()){
-            $users  = User::all();
-            $reports = Report::orderby('id','desc')->paginate(10);
-           
-            return view('reports.index',compact('users','start_date','end_date','reports'));
+            $user = \Auth::user();
+            $reports = Report::where('user_id', $user->id)->orderby('id','desc')->paginate(10);
+            $dashboard = Task::forStakeholderDashboard($user);
+
+            return view('reports.index', [
+                'reports' => $reports,
+                'tasks' => $dashboard['tasks'],
+                'lastReport' => $dashboard['lastReport'],
+                'totalLoadedHours' => $dashboard['totalLoadedHours'],
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+            ]);
         }else { //developer or professional
             $users  = User::all();
             $reports = Report::where('user_id',\Auth::user()->id)->orderby('id','desc')->paginate(10);
