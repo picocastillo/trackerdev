@@ -23,15 +23,17 @@
                         <tr>
                             <th scope="col">Tarea</th>
                             <th scope="col">Estimación</th>
+                            <th scope="col">Horas cargadas</th>
                             <th scope="col">Progreso</th>
                             <th scope="col">Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($tasks as $task)
+                        @forelse ($tasks as $task)
                             <tr>
                                 <td><a href="/tasks/{{ $task->id }}">{{ $task->getTitle() }}</a></td>
                                 <td>{{ $task->billed }} Horas</td>
+                                <td>{{ $task->totalHours() }} h</td>
                                 <td>
                                     <div class="h-4 w-full min-w-[6rem] overflow-hidden rounded-full bg-stone-200">
                                         <div class="flex h-full items-center justify-center rounded-full bg-emerald-500 text-xs text-white" style="width: {{ $task->getPercentage() }}%">{{ round($task->getPercentage(), 2) }}%</div>
@@ -39,9 +41,23 @@
                                 </td>
                                 <td>{{ $task->getDate() }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-4 py-6 text-center text-sm text-stone-500">No hay tareas actuales</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-2 border-t border-stone-200 px-4 py-3 text-sm">
+                <span class="text-stone-500">
+                    @if (!empty($lastReport))
+                        Incluye horas cargadas posteriores al último reporte (hasta {{ $lastReport->to }}).
+                    @endif
+                </span>
+                <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 font-semibold text-emerald-800">
+                    TOTAL {{ $totalLoadedHours ?? '0.00' }} h
+                </span>
             </div>
         </section>
     @else

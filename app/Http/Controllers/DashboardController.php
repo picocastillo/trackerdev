@@ -79,10 +79,16 @@ class DashboardController extends Controller
 
             return view('home', compact('tasks', 'devs', 'projects'));
         } elseif (isClient()) {
-            $reports = Report::where('user_id', \Auth::user()->id)->paginate(10);
-            $tasks = Task::where('paid', false)->get();
+            $user = \Auth::user();
+            $reports = Report::where('user_id', $user->id)->orderby('id', 'desc')->paginate(10);
+            $dashboard = Task::forStakeholderDashboard($user);
 
-            return view('reports.index', compact('reports', 'tasks'));
+            return view('reports.index', [
+                'reports' => $reports,
+                'tasks' => $dashboard['tasks'],
+                'lastReport' => $dashboard['lastReport'],
+                'totalLoadedHours' => $dashboard['totalLoadedHours'],
+            ]);
         }
 
         return app(ReportController::class)->index();

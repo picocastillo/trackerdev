@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
@@ -180,6 +181,46 @@ class Task extends Model
             'is_private' => $this->is_private,
         ];
     }
+    /**
+     * Tasks visible on the stakeholder dashboard: unpaid tickets of the client
+     * projects, plus any ticket with hours loaded after the last report.
+     *
+     * @return array{tasks: \Illuminate\Support\Collection<int, self>, lastReport: Report|null, totalLoadedHours: string}
+     */
+    public static function forStakeholderDashboard(User $client): array
+    {
+        $projectIds = $client->projects()->pluck('projects.id');
+        $lastReport = Report::query()
+            ->where('user_id', $client->id)
+            ->orderByDesc('id')
+            ->first();
+
+        $tasks = static::query()
+            ->whereIn('project_id', $projectIds)
+            ->where(function ($query) use ($lastReport) {
+                $query->where('paid', false);
+
+                if ($lastReport) {
+                    $after = Carbon::parse($lastReport->to)->endOfDay();
+                    $query->orWhere('created_at', '>', $after)
+                        ->orWhereHas('efforts', function ($effortQuery) use ($after) {
+                            $effortQuery->where('created_at', '>', $after);
+                        });
+                }
+            })
+            ->with(['efforts.user.role', 'items', 'states'])
+            ->orderByDesc('id')
+            ->get();
+
+        $totalMinutes = $tasks->sum(fn (self $task) => $task->getEfforts());
+
+        return [
+            'tasks' => $tasks,
+            'lastReport' => $lastReport,
+            'totalLoadedHours' => number_format($totalMinutes / 60, 2),
+        ];
+    }
+
     function totalHours(){
         $sum = 0;
         foreach ($this->efforts as $key => $value) {
