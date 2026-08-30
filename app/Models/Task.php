@@ -238,6 +238,13 @@ class Task extends Model
         }
         return $total;
     }
+
+    function hoursToBill(){
+        $loaded = $this->getEfforts() / 60;
+        $billed = (float) $this->billed;
+
+        return max($billed, $loaded);
+    }
     function getEffortsByUser($user_id){
         $total = 0;
 

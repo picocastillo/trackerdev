@@ -78,9 +78,12 @@ class StakeholderDashboardHoursTest extends TestCase
         $this->makeEffort($openTask, $dev, 30);
         $this->makeEffort($reportedTask, $dev, 120, now()->subMonth());
 
-        Report::create([
-            'from' => now()->subMonth()->startOfMonth()->toDateString(),
-            'to' => now()->subMonth()->endOfMonth()->toDateString(),
+        $from = now()->subMonth()->startOfMonth();
+        $to = now()->subMonth()->endOfMonth();
+
+        $report = Report::create([
+            'from' => $from->toDateString(),
+            'to' => $to->toDateString(),
             'user_id' => $client->id,
             'tasks' => (string) $reportedTask->id,
             'efforts' => '',
@@ -100,7 +103,12 @@ class StakeholderDashboardHoursTest extends TestCase
             ->assertSee('0.50 h')
             ->assertSee('2.75 h')
             ->assertSee('TOTAL 3.25 h')
-            ->assertSee('Incluye horas cargadas posteriores al último reporte');
+            ->assertSee('Incluye horas cargadas posteriores al último reporte')
+            ->assertSee('Período')
+            ->assertSee($from->format('d/m/Y').' — '.$to->format('d/m/Y'))
+            ->assertSee('10.00 h')
+            ->assertSee('Descargar')
+            ->assertSee('/reports/'.$report->id.'/pdf', false);
     }
 
     public function test_stakeholder_dashboard_does_not_show_other_project_tickets(): void

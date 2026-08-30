@@ -1,15 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+@include('includes.errors')
+@include('includes.messages')
+
+@php
+    $headerActions = '<a class="btn btn-primary btn-sm" href="'.url('/reports/'.$report->id.'/pdf').'"><i class="fa fa-file-pdf mr-1.5"></i> Descargar PDF</a>';
+    if (isSenior()) {
+        $headerActions .= '<form method="POST" action="'.url('/reports/'.$report->id).'" class="inline" onsubmit="return confirm(\'¿Borrar este reporte?\');">'
+            .csrf_field()
+            .method_field('DELETE')
+            .'<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash mr-1.5"></i> Borrar</button></form>';
+    }
+    $periodLabel = 'Desde el '.$periodFrom.' hasta '.$periodTo;
+@endphp
+
 <div class="page-shell">
-@if ($report->user->role_id != 4)
+@if (!$report->user->isClient())
     @include('includes.page-header', [
         'title' => 'Detalle de reporte',
-        'subtitle' => 'Desde el '.explode('-', $report->from)[2].'/'.explode('-', $report->from)[1].' hasta '.explode('-', $report->to)[2].'/'.explode('-', $report->to)[1].(\Auth::user()->id != $report->user_id ? ' · '.$report->user->name : ''),
+        'subtitle' => $periodLabel.(\Auth::user()->id != $report->user_id ? ' · '.$report->user->name : ''),
         'breadcrumbs' => [
             ['label' => 'Reportes', 'url' => '/reports'],
             ['label' => 'Detalle', 'url' => null],
         ],
+        'actions' => $headerActions,
     ])
 
     @php
@@ -20,7 +35,7 @@
     <section class="card">
         <div class="card-header">Por proyecto</div>
         <div class="card-body space-y-4 text-sm">
-            @foreach ($by_project as $key => $project)
+            @forelse ($by_project as $key => $project)
                 <div>
                     <h3 class="mb-2 font-semibold text-stone-800">{{ $key }}</h3>
                     <ul class="list-disc space-y-1 pl-5 text-stone-700">
@@ -38,7 +53,9 @@
                         @endforeach
                     </ul>
                 </div>
-            @endforeach
+            @empty
+                <p class="text-stone-500">No hay esfuerzos en este reporte</p>
+            @endforelse
             <p class="text-xs text-stone-500">Se paga 15%+ si supera el 85 y 30%+ con el 95 *solo del tiempo cargado en tickets</p>
         </div>
     </section>
@@ -96,8 +113,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (explode(',', $report->tasks) as $id)
-                            @php $item = App\Models\Task::findOrFail($id) @endphp
+                        @foreach ($tasks as $item)
                             <tr>
                                 <th scope="row"><a href="/tasks/{{ $item->id }}">{{ $item->getTitle() }}</a></th>
                                 <td>{{ $item->estimation }}</td>
@@ -127,8 +143,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (explode(',', $report->efforts) as $id)
-                            @php $item = App\Models\Effort::findOrFail($id); @endphp
+                        @foreach ($efforts as $item)
                             <tr>
                                 <th scope="row">
                                     {{ $item->detail }}
@@ -153,82 +168,111 @@
     </div>
 
 @else
-    @php
-        $aproved_hours = 0;
-        $total_hours_per_task = 0;
-    @endphp
-
     @include('includes.page-header', [
         'title' => 'Detalle de reporte',
-        'subtitle' => 'Desde el '.explode('-', $report->from)[2].'/'.explode('-', $report->from)[1].' hasta '.explode('-', $report->to)[2].'/'.explode('-', $report->to)[1],
+        'subtitle' => $periodLabel.' · '.$projectName,
         'breadcrumbs' => [
             ['label' => 'Reportes', 'url' => '/reports'],
             ['label' => 'Detalle', 'url' => null],
         ],
+        'actions' => $headerActions,
     ])
 
+    <dl class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div class="task-stat">
+            <dt>Período</dt>
+            <dd>{{ $periodFrom }} — {{ $periodTo }}</dd>
+        </div>
+        <div class="task-stat">
+            <dt>Horas facturadas</dt>
+            <dd>{{ number_format((float) $report->billed_hours, 2) }} h</dd>
+        </div>
+        <div class="task-stat">
+            <dt>Fecha de emisión</dt>
+            <dd>{{ $issuedAt }}</dd>
+        </div>
+    </dl>
+
     <section class="card">
-        <div class="card-header">Tareas que se estuvieron desarrollando</div>
-        <div class="card-body">
-            <ol class="list-decimal space-y-3 pl-5 text-sm">
-                @foreach ($tasks as $task)
-                    @php
-                        if ($task->estimation)
-                            $total_hours_per_task += $task->estimation;
-                        else
-                            $total_hours_per_task += $task->getEfforts();
-                    @endphp
-                    <li>
-                        <a target="_blank" href="/tasks/{{ $task->id }}">{{ $task->name }}</a>
-                        <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">{{ $task->project->name }}</span>
-                        ({{ $task->getDate() }})
-                        ({{ $task->billed }} horas)
-                        @if ($task->items()->count())
-                            <br>Hitos
-                            <ul class="list-disc pl-5">
-                                @foreach ($task->items as $item)
-                                    <li>{{ $item->name }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        @if (!$task->estimation)
-                            <br>Esfuerzos
-                            <ul class="list-disc pl-5">
-                                @foreach ($task->efforts as $item)
-                                    <li>{{ $item->detail }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </li>
-                @endforeach
-            </ol>
+        <div class="card-header">Tareas</div>
+        <div class="card-body overflow-x-auto p-0">
+            <table class="table-app">
+                <thead>
+                    <tr>
+                        <th scope="col">Tarea</th>
+                        <th scope="col">Proyecto</th>
+                        <th scope="col">Horas cargadas</th>
+                        <th scope="col">Horas facturadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($tasks as $task)
+                        <tr>
+                            <td><a href="/tasks/{{ $task->id }}">{{ $task->getTitle() }}</a></td>
+                            <td>
+                                <span class="inline-flex rounded-full bg-sky-100 px-2.5 py-0.5 text-xs font-semibold text-sky-800">{{ $task->project->name }}</span>
+                            </td>
+                            <td>{{ number_format($task->getEfforts() / 60, 2) }} h</td>
+                            <td>{{ number_format((float) $task->billed, 2) }} h</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-4 py-6 text-center text-sm text-stone-500">No hay tareas en este reporte</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </section>
 
-    @if (count($efforts))
-        <section class="card">
-            <div class="card-header">Esfuerzos</div>
-            <div class="card-body">
-                <ul class="list-disc space-y-2 pl-5 text-sm">
-                    @foreach ($efforts as $effort)
-                        <input type="hidden" name="efforts[]" value="{{ $effort->id }}">
-                        <li>
-                            {{ $effort->detail }}
-                            <i class="text-stone-500">[{{ $effort->getDate() }}]</i>
-                            <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">{{ $effort->project->name }}</span>
-                            [{{ minutesToHours($effort->amount * $effort->user->role->weight) }} Hs]
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <div class="border-t border-stone-200 px-4 py-3 text-right text-sm font-semibold">
-                Total de horas facturadas: {{ $report->billed_hours }}
-            </div>
-        </section>
-    @else
-        <div class="text-right text-sm font-semibold">
-            Total de horas facturadas: {{ $report->billed_hours }}
+    <section class="card">
+        <div class="card-header">Horas extra</div>
+        <div class="card-body overflow-x-auto p-0">
+            <table class="table-app">
+                <thead>
+                    <tr>
+                        <th scope="col">Detalle</th>
+                        <th scope="col">Proyecto / Tarea</th>
+                        <th scope="col">Horas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($efforts as $effort)
+                        <tr>
+                            <td>{{ $effort->detail }}</td>
+                            <td>
+                                @if ($effort->project)
+                                    <span class="inline-flex rounded-full bg-sky-100 px-2.5 py-0.5 text-xs font-semibold text-sky-800">{{ $effort->project->name }}</span>
+                                @endif
+                                @if ($effort->task)
+                                    <a href="/tasks/{{ $effort->task_id }}">{{ $effort->task->getTitle() }}</a>
+                                @else
+                                    <span class="text-xs text-stone-500">Manual</span>
+                                @endif
+                            </td>
+                            <td>{{ number_format($effort->amount / 60, 2) }} h</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-4 py-6 text-center text-sm text-stone-500">No hay horas extra en este reporte</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 border-t border-stone-200 px-4 py-3 text-sm">
+            <span class="text-stone-500">Costo por hora ${{ number_format((float) $report->rate, 2) }}</span>
+            <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 font-semibold text-emerald-800">
+                TOTAL {{ number_format((float) $report->billed_hours, 2) }} h
+            </span>
+        </div>
+    </section>
+
+    @if ($report->detail)
+        <section class="card">
+            <div class="card-header">Resumen</div>
+            <div class="card-body whitespace-pre-line text-sm text-stone-700">{{ $report->detail }}</div>
+        </section>
     @endif
 @endif
 </div>

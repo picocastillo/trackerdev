@@ -78,6 +78,20 @@ class User extends Authenticatable
         return $query->where('is_active', true);
     }
 
+    public function scopeClients($query)
+    {
+        return $query->whereHas('role', function ($roleQuery) {
+            $roleQuery->where('seniority', 'stackeholder');
+        });
+    }
+
+    public function scopeDevelopers($query)
+    {
+        return $query->whereHas('role', function ($roleQuery) {
+            $roleQuery->whereIn('seniority', ['senior', 'semi-senior', 'junior', 'professional']);
+        });
+    }
+
     // /////////////////
     // METHODS
     // ////////////////
