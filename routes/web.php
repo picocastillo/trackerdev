@@ -51,10 +51,11 @@ Route::middleware(['auth', 'role:senior'])->group(function () {
     Route::patch('/users/{id}/deactivate', [UserController::class, 'deactivate']);
     Route::patch('/users/{id}/activate', [UserController::class, 'activate']);
 
-    Route::post('/reports', [ReportController::class, 'create']);
+    Route::post('/reports/hours', [ReportController::class, 'addHours']);
     Route::post('/reports/new', [ManagerController::class, 'createReport']);
     Route::post('/reports/details', [ManagerController::class, 'detailReport']);
     Route::post('/reports/store', [ReportController::class, 'store']);
+    Route::delete('/reports/{id}', [ReportController::class, 'destroy']);
 
     Route::get('/task/delete/{id}', [TaskController::class, 'delete']);
     Route::get('/task/{task_id}/edit', [TaskController::class, 'edit']);
@@ -95,6 +96,7 @@ Route::middleware(['auth'])->group(function () {
         return view('wiki');
     });
 
-    Route::get('/reports', [ReportController::class, 'index']);
-    Route::get('/reports/{id}', [ReportController::class, 'show']);
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{id}/pdf', [ReportController::class, 'pdf'])->name('reports.pdf');
+    Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
 });

@@ -5,6 +5,16 @@
     @include('includes.messages')
 
     <div class="page-shell">
+        @if (isClient())
+            @include('includes.page-header', [
+                'title' => 'Inicio',
+                'subtitle' => 'Tareas actuales y reportes',
+                'breadcrumbs' => [
+                    ['label' => 'Inicio', 'url' => '/home'],
+                    ['label' => 'Tareas', 'url' => null],
+                ],
+            ])
+        @else
         @include('includes.page-header', [
             'title' => 'Tareas',
             'subtitle' => 'Filtrá y seguí el trabajo en curso',
@@ -16,7 +26,92 @@
                 ? '<button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById(\'ChargeTime\').showModal()"><i class="fa fa-clock mr-1.5"></i> Cargar Tiempo</button>'
                 : null,
         ])
+        @endif
 
+        @if (isClient())
+            <section class="card">
+                <div class="card-header">Tareas actuales</div>
+                <div class="card-body overflow-x-auto p-0">
+                    <table class="table-app">
+                        <thead>
+                            <tr>
+                                <th scope="col">Tarea</th>
+                                <th scope="col">Estimación</th>
+                                <th scope="col">Horas cargadas</th>
+                                <th scope="col">Progreso</th>
+                                <th scope="col">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($tasks as $task)
+                                <tr>
+                                    <td><a href="/tasks/{{ $task->id }}">{{ $task->getTitle() }}</a></td>
+                                    <td>{{ $task->billed }} Horas</td>
+                                    <td>{{ $task->totalHours() }} h</td>
+                                    <td>
+                                        <div class="h-4 w-full min-w-[6rem] overflow-hidden rounded-full bg-stone-200">
+                                            <div class="flex h-full items-center justify-center rounded-full bg-emerald-500 text-xs text-white" style="width: {{ $task->getPercentage() }}%">{{ round($task->getPercentage(), 2) }}%</div>
+                                        </div>
+                                    </td>
+                                    <td>{{ $task->getDate() }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-4 py-6 text-center text-sm text-stone-500">No hay tareas actuales</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 border-t border-stone-200 px-4 py-3 text-sm">
+                    <span class="text-stone-500">
+                        @if (!empty($lastReport))
+                            Incluye horas cargadas posteriores al último reporte (hasta {{ $lastReport->to }}).
+                        @endif
+                    </span>
+                    <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 font-semibold text-emerald-800">
+                        TOTAL {{ $totalLoadedHours ?? '0.00' }} h
+                    </span>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-header">Reportes</div>
+                <div class="card-body overflow-x-auto p-0">
+                    <table class="table-app">
+                        <thead>
+                            <tr>
+                                <th scope="col">Período</th>
+                                <th scope="col">Total de horas</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($reports as $report)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($report->from)->format('d/m/Y') }} — {{ \Carbon\Carbon::parse($report->to)->format('d/m/Y') }}</td>
+                                    <td>{{ number_format((float) $report->billed_hours, 2) }} h</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" href="{{ url('/reports/'.$report->id.'/pdf') }}">
+                                            <i class="fa fa-file-pdf mr-1.5"></i> Descargar
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="px-4 py-6 text-center text-sm text-stone-500">No hay reportes</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                @if (method_exists($reports, 'links'))
+                    <div class="border-t border-stone-200 px-4 py-3">
+                        {{ $reports->links() }}
+                    </div>
+                @endif
+            </section>
+        @else
         <section class="card">
             <div class="card-body">
                 <div class="page-toolbar">
@@ -146,6 +241,7 @@
                 {{ $tasks->links() }}
             </div>
         </section>
+        @endif
     </div>
 @endsection
 

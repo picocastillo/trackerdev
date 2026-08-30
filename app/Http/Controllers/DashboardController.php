@@ -83,7 +83,7 @@ class DashboardController extends Controller
             $reports = Report::where('user_id', $user->id)->orderby('id', 'desc')->paginate(10);
             $dashboard = Task::forStakeholderDashboard($user);
 
-            return view('reports.index', [
+            return view('home', [
                 'reports' => $reports,
                 'tasks' => $dashboard['tasks'],
                 'lastReport' => $dashboard['lastReport'],
